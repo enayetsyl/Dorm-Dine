@@ -13,7 +13,11 @@ export default {
         three:'#95a5a6',
         four:'#e67e22',
         five:'#ecf0f1',
-      }
+      },
+      fontFamily: {
+        primary: ['Roboto', 'sans-serif'],
+        secondary: ['Poppins', 'sans-serif']
+      },
     },
   },
   plugins: [],
