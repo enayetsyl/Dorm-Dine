@@ -6,7 +6,15 @@ export default {
      ],
 
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        one:'#3498db',
+        two:'#2ecc71',
+        three:'#95a5a6',
+        four:'#e67e22',
+        five:'#ecf0f1',
+      }
+    },
   },
   plugins: [],
 }
