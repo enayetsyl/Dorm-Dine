@@ -11,7 +11,7 @@ const Banner = () => {
       <p className='font-semibold text-base md:text-lg '>Discover the essence of student life at DormDine — where meals become moments and friendships flourish.</p>
       <form className='flex flex-col md:flex-row gap-3 pb-5'>
         <input type="text" name="search" id="" placeholder='Search Here' className='p-3 w-80'/>
-        <input type="submit" value="Search" className='bg-four py-2 md:px-5 font-semibold' />
+        <input type="submit" value="Search" className='bg-four py-2 md:px-5 font-semibold rounded-lg' />
       </form>
       </div>
     </div>
