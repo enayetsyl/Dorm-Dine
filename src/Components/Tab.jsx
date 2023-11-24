@@ -3,6 +3,9 @@ import { useState, useEffect } from 'react';
 import MealCard from './MealCard';
 import Container from './Container';
 // import JobCard from './JobCard';
+import { AwesomeButton } from "react-awesome-button";
+import 'react-awesome-button/dist/styles.css';
+import './button.css'
 
 const Tab = () => {
   const [activeTab, setActiveTab] = useState('All'); 
@@ -54,6 +57,9 @@ const Tab = () => {
          <MealCard></MealCard>
          <MealCard></MealCard>
         
+      </div>
+      <div className='flex items-center justify-center'>
+      <AwesomeButton type="primary" className='aws-btn font-bold px-20' >See All</AwesomeButton>
       </div>
     </div>
     </Container>
