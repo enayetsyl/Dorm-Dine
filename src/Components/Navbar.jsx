@@ -5,6 +5,7 @@ import { GiHamburgerMenu } from 'react-icons/gi';
 // import { IoMdNotifications } from 'react-icons/io';
 
 import logo from '../assets/titleIcon.png';
+import useAuth from '../hooks/useAuth';
 
 const Navbar = () => {
 
@@ -13,7 +14,8 @@ const Navbar = () => {
   const [active, setActive] = useState(pathname);
   const [accountActive, setAccountActive] = useState(false);
   const [open, setIsOpen] = useState(false);
-  const [userLoggedIn, setUserLoggedIn] = useState(false);
+  // const [userLoggedIn, setUserLoggedIn] = useState(false);
+  const {user, logOut} = useAuth();
 
   const navData = [
     {
@@ -102,7 +104,7 @@ const Navbar = () => {
                 <IoMdNotifications size={25} />
               </Link> */}
 
-              {userLoggedIn ? (
+              {user ? (
                 <div className="text-xl flex gap-1 items-center hover:text-one duration-500 relative">
                   <img
                     src=""
@@ -122,7 +124,9 @@ const Navbar = () => {
                           </Link>
                         </li>
                         <li>
-                          <button className="text-sm bg-black text-white py-2 px-6 rounded-full">
+                          <button 
+                          onClick={logOut}
+                          className="text-sm bg-black text-white py-2 px-6 rounded-full">
                             Logout
                           </button>
                         </li>
@@ -131,9 +135,11 @@ const Navbar = () => {
                   )}
                 </div>
               ) : (
+               <Link to='/login'>
                 <button className="bg-black text-white !text-sm uppercase font-bold py-3 px-12 hover:translate-y-2 duration-500 rounded cursor-pointer">
                   Join Us
                 </button>
+               </Link>
               )}
               <Link
                 to="/cart"
