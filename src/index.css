@@ -14,7 +14,7 @@ body {
   padding: 0;
   box-sizing: border-box;
   color: var(--aw_fourth_color);
-  background-color: var(--aw_fifth_color);
+  background-color: #fff;
   /* font-family: var(--aw_primary_font); */
   overflow-x: hidden;
 }

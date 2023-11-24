@@ -6,6 +6,8 @@ import Error from "../Pages/Error";
 import MainLayout from "../MainLayout/MainLayout";
 import Home from "../Pages/Home";
 import Meals from "../Pages/Meals";
+import Register from "../Pages/Register";
+import Login from "../Pages/Login";
  
  const router = createBrowserRouter([
   {
@@ -35,10 +37,14 @@ import Meals from "../Pages/Meals";
       //   path: '/login',
       //   element:<Login></Login>
       // },
-      // {
-      //   path: '/register',
-      //   element:<Register></Register>
-      // },
+      {
+        path: '/register',
+        element:<Register/>
+      },
+      {
+        path: '/login',
+        element:<Login/>
+      },
       // {
       //   path: '/alljob',
       //   element:<AllJob></AllJob>,

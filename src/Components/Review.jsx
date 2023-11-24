@@ -10,7 +10,7 @@ const Review = () => {
  <div className=' mx-5 md:mx-2 lg:mx-10'>
   <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10">
     {/* first card */}
-    <div className="w-96 h-96 bg-three relative">
+    <div className="w-96 h-96 bg-three relative col-span-1 mx-auto">
     <p className="text-center text-7xl font-black opacity-50">Feedback</p>
     <div className="bg-four mx-8 h-52 rounded-3xl w-10/12 absolute top-32">
       <div className="w-28 h-28 bg-five rounded-full absolute -top-16 left-24">
@@ -22,7 +22,7 @@ const Review = () => {
     </div>
    </div>
   {/* second card */}
-  <div className="w-96 h-96 bg-three relative">
+  <div className="w-96 h-96 bg-three relative col-span-1 mx-auto">
     <p className="text-center text-7xl font-black opacity-50">Feedback</p>
     <div className="bg-four mx-8 h-52 rounded-3xl w-10/12 absolute top-32">
       <div className="w-28 h-28 bg-five rounded-full absolute -top-16 left-24">
@@ -34,7 +34,7 @@ const Review = () => {
     </div>
    </div>
      {/* third card */}
-     <div className="w-96 h-96 bg-three relative">
+     <div className="w-96 h-96 bg-three relative col-span-1 mx-auto">
     <p className="text-center text-7xl font-black opacity-50">Feedback</p>
     <div className="bg-four mx-8 h-52 rounded-3xl w-10/12 absolute top-32">
       <div className="w-28 h-28 bg-five rounded-full absolute -top-16 left-24">

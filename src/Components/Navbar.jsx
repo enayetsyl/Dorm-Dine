@@ -13,7 +13,7 @@ const Navbar = () => {
   const [active, setActive] = useState(pathname);
   const [accountActive, setAccountActive] = useState(false);
   const [open, setIsOpen] = useState(false);
-  const [userLoggedIn, setUserLoggedIn] = useState(true);
+  const [userLoggedIn, setUserLoggedIn] = useState(false);
 
   const navData = [
     {
@@ -51,7 +51,7 @@ const Navbar = () => {
           {/* logo */}
           <div className="flex justify-center items-center gap-5">
             <img src={logo} alt="" className="max-w-[100px]" />
-            <h1 className='font-primary text-black font-bold text-4xl '>DormDine</h1>
+            <h1 className='font-primary text-black font-bold text-4xl hidden md:block'>DormDine</h1>
           </div>
           <div className="flex flex-row-reverse lg:flex-row items-center justify-center md:gap-x-12">
             {/* desktop navigation */}

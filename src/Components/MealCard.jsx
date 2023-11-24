@@ -9,10 +9,10 @@ const MealCard = () => {
         <h1 className="uppercase text-2xl  font-semibold text-blue-800">Deshi Food</h1>
         <p className="text-base text-gray-500">Very delicious made with care. Ingradients are flour, vegetable, honey, cheese.</p>
         </div>
-        <div className="w-full h-2/3 px-5 rounded-xl">
-          <img src={cardImage} alt="" className='w-full h-fulll object-cover rounded-xl' />
+        <div className="w-full h-[300px] px-5 rounded-xl">
+          <img src={cardImage} alt="" className='w-full h-full object-cover rounded-xl' />
         </div>
-        <div className='flex justify-between items-center px-5 pt-5'>
+        <div className='flex justify-between items-center px-5 py-5'>
           <h1 className='text-2xl font-black text-black'>$125</h1>
           <div className='flex justify-center text-four font-black'>
           <BsStar /><BsStar /><BsStar /> {/* if necessary add rating icon here*/}
