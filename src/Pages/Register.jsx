@@ -4,10 +4,14 @@ import useAuth from '../hooks/useAuth';
 import { getAuth, updateProfile } from 'firebase/auth';
 import app from '../Firebase/firebase.config';
 import swal from 'sweetalert';
+import useAxiosSecure from '../hooks/useAxiosSecure';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
-  const {createUser, setUser} = useAuth();
+  const {createUser, setUser, googleSignIn} = useAuth();
   const auth = getAuth(app)
+  const axiosSecure = useAxiosSecure()
+  const navigate = useNavigate()
   const { register, 
     formState: { errors },
     handleSubmit } = useForm()
@@ -25,16 +29,53 @@ const Register = () => {
         displayName: userInfo.name,
       })
       setUser(auth.currentUser)
-      swal('Congratulations', 'Your registration is complete', 'success');
+      axiosSecure.post('/api/v1/user', userInfo)
+      .then(response => {
+        if (response.data.insertedId){
+          swal('Congratulations', 'Your registration is complete', 'success');
+          navigate('/')
+        }else{
+          swal('Something Wrong', 'Try again', 'error');
+        }
+      })
     } 
     }
     catch (err){
       swal('Error', err.message, 'error')
     }
-
-    console.log(userInfo.email, userInfo.password)
   }
-  
+  // GOOGLE SING IN
+
+  const handleGoogleSignIn = () => {
+    googleSignIn()
+    .then(response => {
+      const userInfo = {
+        name: response.user.displayName,
+        email: response.user.email,
+        password: 'n/a'
+      }
+      axiosSecure.post('/api/v1/user', userInfo)
+      .then(response => {
+        console.log(response)
+        if(response.data.insertedId){
+          swal('Congratulations', 'Your registration is complete', 'success');
+          setUser(userInfo)
+          navigate('/')
+        } else if (response.data.message === 'User already registered'){
+          swal('Congratulations', 'Your Login is Successful', 'success');
+          setUser(userInfo)
+          navigate('/')
+        }
+        else{
+          swal('Something Wrong', 'Try again', 'error');
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    })
+
+  }
   
   return (
     <div
@@ -102,7 +143,9 @@ const Register = () => {
     <hr className='w-full bg-four h-1' />
     <h1 className='text-center font-bold text-xl uppercase'>or</h1>
     <div className='w-full'>
-      <button className='bg-three text-black font-semibold py-3 px-5 w-full rounded-lg text-xl'>Register With Google</button>
+      <button
+      onClick={handleGoogleSignIn}
+      className='bg-three text-black font-semibold py-3 px-5 w-full rounded-lg text-xl'>Register With Google</button>
     </div>
     <div>
       <p className=' text-center text-black font-secondary'>Already have account? <span className='underline font-bold text-four'>Login</span></p>
