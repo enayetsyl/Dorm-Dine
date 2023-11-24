@@ -5,6 +5,7 @@ import {
 import Error from "../Pages/Error";
 import MainLayout from "../MainLayout/MainLayout";
 import Home from "../Pages/Home";
+import Meals from "../Pages/Meals";
  
  const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ import Home from "../Pages/Home";
       {
         path: '/',
         element:<Home></Home>
+      },
+      {
+        path: '/meals',
+        element:<Meals/>
       },
       // {
       //   path: '/addjob',

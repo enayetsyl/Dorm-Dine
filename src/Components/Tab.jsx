@@ -6,6 +6,7 @@ import Container from './Container';
 import { AwesomeButton } from "react-awesome-button";
 import 'react-awesome-button/dist/styles.css';
 import './button.css'
+import { Link } from 'react-router-dom';
 
 const Tab = () => {
   const [activeTab, setActiveTab] = useState('All'); 
@@ -34,7 +35,7 @@ const Tab = () => {
 
   return (
     <Container>
-      <div className='space-y-10'>
+      <div className='space-y-10 px-5'>
       <div>
         {tabs?.map((tab) => (
           <button
@@ -51,7 +52,7 @@ const Tab = () => {
           </button>
         ))}
       </div>
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20 lg:gap-5'>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20 lg:gap-5 '>
         
          <MealCard></MealCard>
          <MealCard></MealCard>
@@ -59,7 +60,9 @@ const Tab = () => {
         
       </div>
       <div className='flex items-center justify-center'>
+      <Link to='/meals'>
       <AwesomeButton type="primary" className='aws-btn font-bold px-20' >See All</AwesomeButton>
+      </Link>
       </div>
     </div>
     </Container>
