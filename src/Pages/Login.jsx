@@ -7,7 +7,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useAxiosSecure from '../hooks/useAxiosSecure';
 
 const Login = () => {
-  const {signInUser, setUser, googleSignIn} = useAuth();
+  const {signInUser, setUser, googleSignIn, setGoogleUser} = useAuth();
   const axiosSecure = useAxiosSecure()
   const location = useLocation();
   const navigate = useNavigate();
@@ -37,17 +37,21 @@ const Login = () => {
         email: response.user.email,
         password: 'n/a'
       }
+      console.log(userInfo)
       axiosSecure.post('/api/v1/user', userInfo)
       .then(response => {
         console.log(response)
-        if(response.data.insertedId){
+        if(response.data.statusText === 'OK'){
           swal('Congratulations', 'Your registration is complete', 'success');
           setUser(userInfo)
-          navigate('/')
+          setGoogleUser(userInfo)
+          navigate(location?.state ? location.state : '/')
         } else if (response.data.message === 'User already registered'){
           swal('Congratulations', 'Your Login is Successful', 'success');
+          console.log(userInfo)
           setUser(userInfo)
-          navigate('/')
+          setGoogleUser(userInfo)
+          navigate(location?.state ? location.state : '/')
         }
         else{
           swal('Something Wrong', 'Try again', 'error');

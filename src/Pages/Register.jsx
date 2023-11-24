@@ -5,13 +5,14 @@ import { getAuth, updateProfile } from 'firebase/auth';
 import app from '../Firebase/firebase.config';
 import swal from 'sweetalert';
 import useAxiosSecure from '../hooks/useAxiosSecure';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Register = () => {
-  const {createUser, setUser, googleSignIn} = useAuth();
+  const {createUser, setUser, googleSignIn, setGoogleUser} = useAuth();
   const auth = getAuth(app)
   const axiosSecure = useAxiosSecure()
   const navigate = useNavigate()
+  const location = useLocation();
   const { register, 
     formState: { errors },
     handleSubmit } = useForm()
@@ -19,7 +20,8 @@ const Register = () => {
     const userInfo = {
       ...data,
       role: 'resident',
-      package: 'none', 
+      package: 'none',
+      badge:'bronze', 
     }
     
     try {
@@ -33,7 +35,7 @@ const Register = () => {
       .then(response => {
         if (response.data.insertedId){
           swal('Congratulations', 'Your registration is complete', 'success');
-          navigate('/')
+          navigate(location?.state ? location.state : '/')
         }else{
           swal('Something Wrong', 'Try again', 'error');
         }
@@ -60,11 +62,13 @@ const Register = () => {
         if(response.data.insertedId){
           swal('Congratulations', 'Your registration is complete', 'success');
           setUser(userInfo)
-          navigate('/')
+          setGoogleUser(userInfo)
+          navigate(location?.state ? location.state : '/')
         } else if (response.data.message === 'User already registered'){
           swal('Congratulations', 'Your Login is Successful', 'success');
           setUser(userInfo)
-          navigate('/')
+          setGoogleUser(userInfo)
+          navigate(location?.state ? location.state : '/')
         }
         else{
           swal('Something Wrong', 'Try again', 'error');
