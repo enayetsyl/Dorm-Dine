@@ -1,11 +1,65 @@
 import bgImage from '../assets/16.jpg'
 
 import { useForm } from "react-hook-form"
+import useAuth from '../hooks/useAuth';
+import swal from 'sweetalert';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import useAxiosSecure from '../hooks/useAxiosSecure';
 
 const Login = () => {
-  
-  const { register, handleSubmit } = useForm()
-  const onSubmit = (data) => console.log(data)
+  const {signInUser, setUser, googleSignIn} = useAuth();
+  const axiosSecure = useAxiosSecure()
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { register, 
+    formState: { errors },
+    handleSubmit } = useForm()
+  const onSubmit = (data) => {
+    signInUser(data.email, data.password)
+    .then(response => {
+      console.log(response)
+      setUser(response.user)
+      swal('Ovinondon', "Your Login Successful", "success")
+      navigate(location?.state ? location.state : '/')
+    })
+    .catch(err => {
+      if(err){
+        swal("ERROR", `${err.message}`, "error")
+      }
+    })
+  }
+
+  const handleGoogleSignIn = () => {
+    googleSignIn()
+    .then(response => {
+      const userInfo = {
+        name: response.user.displayName,
+        email: response.user.email,
+        password: 'n/a'
+      }
+      axiosSecure.post('/api/v1/user', userInfo)
+      .then(response => {
+        console.log(response)
+        if(response.data.insertedId){
+          swal('Congratulations', 'Your registration is complete', 'success');
+          setUser(userInfo)
+          navigate('/')
+        } else if (response.data.message === 'User already registered'){
+          swal('Congratulations', 'Your Login is Successful', 'success');
+          setUser(userInfo)
+          navigate('/')
+        }
+        else{
+          swal('Something Wrong', 'Try again', 'error');
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    })
+
+  }
+
   return (
     <div
     className="min-h-screen bg-no-repeat bg-cover relative"
@@ -23,12 +77,30 @@ const Login = () => {
       placeholder='Email'
       />
       </div>
+      <div>
+      {
+        errors.email?.type === "required" && (
+          <p role='alert'>Email is required</p>
+        )
+      }
+      </div>
       <div className='flex flex-row justify-start items-center gap-1'>
       <label htmlFor="" className='font-bold text-black'>Password: </label>
-      <input {...register("password", { pattern: /^[A-Za-z]+$/i })} 
+      <input {...register("password", {required: true, pattern: /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/, })} 
       className='py-2 px-5 rounded-lg w-full' 
       placeholder='Name'
+      type='password'
       />
+      </div>
+      <div>
+      {
+        errors.password?.type === "required" && (
+          <p role='alert'>Password is required</p>
+        )
+      }
+      {errors.password?.type === "pattern" && (
+    <p role='alert'>Password must contain at least 6 digits, 1 capital letter, and 1 special character</p>
+  )}
       </div>
       <div className='flex justify-center items-center'>
       <input type="submit"
@@ -40,10 +112,16 @@ const Login = () => {
     <hr className='w-full bg-four h-1' />
     <h1 className='text-center font-bold text-xl uppercase'>or</h1>
     <div className='w-full'>
-      <button className='bg-three text-black font-semibold py-3 px-5 w-full rounded-lg text-xl'>Login With Google</button>
+      <button 
+      onClick={handleGoogleSignIn}
+      className='bg-three text-black font-semibold py-3 px-5 w-full rounded-lg text-xl'>Login With Google</button>
     </div>
     <div>
-      <p className=' text-center text-black font-secondary'>Already have account? <span className='underline font-bold text-four'>Register</span></p>
+      <p className=' text-center text-black font-secondary'>Already have account? <span className='underline font-bold text-four'>
+        <Link to='/register'>
+        Register
+        </Link>
+        </span></p>
     </div>
      </div>
     </div>

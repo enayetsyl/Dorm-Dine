@@ -5,7 +5,7 @@ import { getAuth, updateProfile } from 'firebase/auth';
 import app from '../Firebase/firebase.config';
 import swal from 'sweetalert';
 import useAxiosSecure from '../hooks/useAxiosSecure';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const {createUser, setUser, googleSignIn} = useAuth();
@@ -148,7 +148,11 @@ const Register = () => {
       className='bg-three text-black font-semibold py-3 px-5 w-full rounded-lg text-xl'>Register With Google</button>
     </div>
     <div>
-      <p className=' text-center text-black font-secondary'>Already have account? <span className='underline font-bold text-four'>Login</span></p>
+      <p className=' text-center text-black font-secondary'>Already have account? <span className='underline font-bold text-four'>
+        <Link to={'/login'}>
+        Login
+        </Link>
+        </span></p>
     </div>
      </div>
     </div>
