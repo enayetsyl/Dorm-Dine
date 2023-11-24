@@ -1,20 +1,38 @@
 import bgImage from '../assets/8.jpg'
-
 import { useForm } from "react-hook-form"
+import useAuth from '../hooks/useAuth';
+import { getAuth, updateProfile } from 'firebase/auth';
+import app from '../Firebase/firebase.config';
+import swal from 'sweetalert';
 
 const Register = () => {
-
+  const {createUser, setUser} = useAuth();
+  const auth = getAuth(app)
   const { register, 
     formState: { errors },
     handleSubmit } = useForm()
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const userInfo = {
       ...data,
       role: 'resident',
       package: 'none', 
     }
     
-    console.log(userInfo)
+    try {
+      const res = await createUser(userInfo.email, userInfo.password)
+    if(res.user){
+      await updateProfile(auth.currentUser, {
+        displayName: userInfo.name,
+      })
+      setUser(auth.currentUser)
+      swal('Congratulations', 'Your registration is complete', 'success');
+    } 
+    }
+    catch (err){
+      swal('Error', err.message, 'error')
+    }
+
+    console.log(userInfo.email, userInfo.password)
   }
   
   
