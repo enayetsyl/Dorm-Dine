@@ -1,8 +1,8 @@
 import bannerImage from '../assets/4.jpg'
-import Container from './Container';
+// import Container from './Container';
 const Banner = () => {
   return (
-   <Container>
+
      <div className="min-h-screen bg-no-repeat bg-cover relative"
     style={{backgroundImage: `url(${bannerImage})`}}
     >
@@ -15,7 +15,7 @@ const Banner = () => {
       </form>
       </div>
     </div>
-   </Container>
+  
   );
 };
 
