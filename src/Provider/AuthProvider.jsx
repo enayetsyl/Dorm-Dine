@@ -1,7 +1,8 @@
 import { createContext, useEffect, useState } from "react";
 import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import app from "../Firebase/firebase.config";
-import useAxiosSecure from "../hooks/useAxiosSecure";
+// import useAxiosSecure from "../hooks/useAxiosSecure";
+import axios from "axios";
 // import { useNavigate } from "react-router-dom";
 
 
@@ -15,7 +16,7 @@ const AuthProvider = ({children}) => {
   const [user, setUser] = useState(null);
   const [googleUser, setGoogleUser] = useState(null)
   const [loading, setLoading] = useState(true);
-  const axiosSecure = useAxiosSecure()
+  // const axiosSecure = useAxiosSecure()
   // const navigate = useNavigate()
 
   const createUser = (email, password) => {
@@ -48,12 +49,12 @@ const AuthProvider = ({children}) => {
       setUser(currentUser)
       setLoading(false);
       if(currentUser){
-        axiosSecure.post('/api/v1/jwt', loggedUser)
+        axios.post('http://localhost:5000/api/v1/jwt', loggedUser, {withCredentials: true})
         .then(response => {
           console.log(response.data)
         })
       }else {
-        axiosSecure.post('/api/v1/logout', loggedUser)
+        axios.post('http://localhost:5000/api/v1/logout', loggedUser, {withCredentials: true})
         .then(response => {
           console.log(response.data)
           // navigate('/login')
@@ -66,7 +67,7 @@ const AuthProvider = ({children}) => {
     return () => {
       unSubscribe()
     }
-  },[googleUser, user, axiosSecure])
+  },[googleUser, user])
 
   const authInfo = {
     user, 
