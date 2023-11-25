@@ -1,28 +1,70 @@
 import { useForm } from "react-hook-form";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import swal from "sweetalert";
+import axios from "axios";
+
+
+const VITE_IMAGE_HOSTING_KEY = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${VITE_IMAGE_HOSTING_KEY}`;
+
 const AddMeal = () => {
   const { register, handleSubmit } = useForm();
   const axiosSecure = useAxiosSecure()
 
-  const onSubmit = (data, event) => {
+  const onSubmit = async (data, event) => {
     // Handle your form data here
-    console.log(data);
+    // console.log(data);
     const clickedButton = event.nativeEvent.submitter;
   if (clickedButton.name === "addMeal") {
-    console.log("Add Meal button clicked", data);
-    axiosSecure.post('/api/v1/addMeal', data)
-    .then(response => {
-      if(response.data.insertedId){
-        swal('Congratulations', 'Your registration is complete', 'success');
+    // console.log("Add Meal button clicked", data);
+    try{
+      const formData = new FormData();
+      formData.append('image', data.mealImage[0])
+      const imageResponse = await axios.post(image_hosting_api, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        }
+      })
+      if(imageResponse.data.status === 200){
+        data.mealImage = imageResponse.data.data.url;
+        const response = await axiosSecure.post('/api/v1/addMeal', data)
+        if(response.data.insertedId){
+          swal('Congratulations', 'Your registration is complete', 'success');
+        }else{
+          swal('Something Wrong', 'Try again', 'error');
+        }
       }else{
-        swal('Something Wrong', 'Try again', 'error');
+        swal('Image Upload Failed', 'Please try again', 'error')
       }
-    })
-    
+    }catch (error){
+      console.log(error)
+    }
+
+     
     // Handle Add Meal logic
   } else if (clickedButton.name === "upcomingMeal") {
-    console.log("Upcoming Meal button clicked",data);
+    try{
+      const formData = new FormData();
+      formData.append('image', data.mealImage[0])
+      const imageResponse = await axios.post(image_hosting_api, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        }
+      })
+      if(imageResponse.data.status === 200){
+        data.mealImage = imageResponse.data.data.url;
+        const response = await axiosSecure.post('/api/v1/upcomingMeal', data)
+        if(response.data.insertedId){
+          swal('Congratulations', 'Your upcoming meal added', 'success');
+        }else{
+          swal('Something Wrong', 'Try again', 'error');
+        }
+      }else{
+        swal('Image Upload Failed', 'Please try again', 'error')
+      }
+    }catch (error){
+      console.log(error)
+    }
     // Handle Upcoming Meal logic
   }
   };
