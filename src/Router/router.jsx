@@ -8,6 +8,7 @@ import Home from "../Pages/Home";
 import Meals from "../Pages/Meals";
 import Register from "../Pages/Register";
 import Login from "../Pages/Login";
+import MealDetails from "../Pages/MealDetails";
  
  const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ import Login from "../Pages/Login";
       {
         path: '/meals',
         element:<Meals/>
+      },
+      {
+        path: '/mealdetails',
+        element:<MealDetails/>
       },
       // {
       //   path: '/addjob',

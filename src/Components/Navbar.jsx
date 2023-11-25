@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa';
 import { GiHamburgerMenu } from 'react-icons/gi';
+import { AwesomeButton } from "react-awesome-button";
+import 'react-awesome-button/dist/styles.css';
+import './button.css'
 // import { IoMdNotifications } from 'react-icons/io';
 
 import logo from '../assets/titleIcon.png';
@@ -126,8 +129,9 @@ const Navbar = () => {
                         <li>
                           <button 
                           onClick={logOut}
-                          className="text-sm bg-black text-white py-2 px-6 rounded-full">
-                            Logout
+                          >
+                            
+                            <AwesomeButton type="primary" className='aws-btn font-bold px-20' >Logout</AwesomeButton>
                           </button>
                         </li>
                       </ul>
@@ -136,9 +140,10 @@ const Navbar = () => {
                 </div>
               ) : (
                <Link to='/login'>
-                <button className="bg-black text-white !text-sm uppercase font-bold py-3 px-12 hover:translate-y-2 duration-500 rounded cursor-pointer">
+                <AwesomeButton type="primary" className='aws-btn font-bold px-20' >Join Us</AwesomeButton>
+                {/* <button className="bg-black text-white !text-sm uppercase font-bold py-3 px-12 hover:translate-y-2 duration-500 rounded cursor-pointer">
                   Join Us
-                </button>
+                </button> */}
                </Link>
               )}
               <Link
