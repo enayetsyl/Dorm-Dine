@@ -8,9 +8,9 @@ import useAdmin from "../hooks/useAdmin";
 const DashboardLayout = () => {
   const [isAdmin] = useAdmin()
   return (
-    <div className="flex justify-between">
+    <div className="">
       {/* sidebar */}
-    <div className="min-h-screen bg-five p-10 space-y-5 flex flex-col">
+    <div className=" bg-five p-2 space-x-5 flex flex-row flex-wrap gap-5">
       {
         isAdmin ? <>
         <Link to='/dashboard/adminProfile'>
@@ -49,7 +49,7 @@ const DashboardLayout = () => {
       }
     </div>
       {/* main section */}
-      <div>
+      <div className="py-10">
         <Outlet/>
       </div>
     </div>
