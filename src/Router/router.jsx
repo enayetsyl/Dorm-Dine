@@ -14,6 +14,13 @@ import DashboardLayout from "../MainLayout/DashboardLayout";
 import MyProfile from "../DashBoard/MyProfile";
 import RequestedMeals from "../DashBoard/RequestedMeals";
 import MyReviews from "../DashBoard/MyReviews";
+import AdminProfile from "../DashBoard/AdminProfile";
+import ManageUsers from "../DashBoard/ManageUsers";
+import AddMeal from "../DashBoard/AddMeal";
+import AllMeals from "../DashBoard/AllMeals";
+import AllReviews from "../DashBoard/AllReviews";
+import ServeMeals from "../DashBoard/ServeMeals";
+import UpcomingMealsAdmin from "../DashBoard/UpcomingMealsAdmin";
  
  const router = createBrowserRouter([
   {
@@ -66,6 +73,37 @@ import MyReviews from "../DashBoard/MyReviews";
     path:'dashboard',
     element:<DashboardLayout/>,
     children:[
+      // ADMIN ROUTE
+      {
+        path:'adminProfile',
+        element:<AdminProfile/>
+      },
+      {
+        path:'manageUsers',
+        element:<ManageUsers/>
+      },
+      {
+        path:'addMeal',
+        element:<AddMeal/>
+      },
+      {
+        path:'allMeals',
+        element:<AllMeals/>
+      },
+      {
+        path:'allReviews',
+        element:<AllReviews/>
+      },
+      {
+        path:'serveMeals',
+        element:<ServeMeals/>
+      },
+      {
+        path:'upcomingMeals',
+        element:<UpcomingMealsAdmin/>
+      },
+
+      // USER ROUTE
       {
         path:'myProfile',
         element:<MyProfile/>,
