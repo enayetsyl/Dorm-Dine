@@ -88,8 +88,3 @@ const AuthProvider = ({children}) => {
 };
 
 export default AuthProvider;
-
-// change the imports if necessary
-// in the useState you can use userName and userPhoto use state if necessary
-// you should keep user useState for making the observer within useEffect to work.
-// if you change the authInfo variable name then make sure to change the value inside AuthContext.Provider tag. 
