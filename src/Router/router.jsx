@@ -10,6 +10,10 @@ import Register from "../Pages/Register";
 import Login from "../Pages/Login";
 import MealDetails from "../Pages/MealDetails";
 import UpcomingMeals from "../Pages/UpcomingMeals";
+import DashboardLayout from "../MainLayout/DashboardLayout";
+import MyProfile from "../DashBoard/MyProfile";
+import RequestedMeals from "../DashBoard/RequestedMeals";
+import MyReviews from "../DashBoard/MyReviews";
  
  const router = createBrowserRouter([
   {
@@ -55,13 +59,27 @@ import UpcomingMeals from "../Pages/UpcomingMeals";
         path: '/login',
         element:<Login/>
       },
-      // {
-      //   path: '/alljob',
-      //   element:<AllJob></AllJob>,
-      //   loader:() => fetch('http://localhost:5000/api/v1/jobs')
-      // },
+     
     ]
   },
+  {
+    path:'dashboard',
+    element:<DashboardLayout/>,
+    children:[
+      {
+        path:'myProfile',
+        element:<MyProfile/>,
+      },
+      {
+        path:'requestedMeals',
+        element:<RequestedMeals/>,
+      },
+      {
+        path:'myReviews',
+        element:<MyReviews/>,
+      },
+    ]
+  }
 ]);
 
 export default router;
