@@ -4,11 +4,60 @@ import { AwesomeButton } from "react-awesome-button";
 import 'react-awesome-button/dist/styles.css';
 import '../Components/button.css'
 import MealReview from "../Components/MealReview";
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
+import { useState } from "react";
+import useAuth from "../hooks/useAuth";
+import swal from "sweetalert";
+import { async } from "@firebase/util";
+import { aW } from "@tanstack/query-core/build/legacy/queryClient-13f81fcb";
+import useAxiosSecure from "../hooks/useAxiosSecure";
+import { updateEmail } from "@firebase/auth";
 
 const MealDetails = () => {
   const meal = useLoaderData()
-  const {_id, mealImage, mealTitle, price, rating, postTime, distributorName, likes, ingredients, description, reviews: reviewCount } = meal;
+  const {_id, mealImage, mealTitle, price, rating, postTime, distributorName, ingredients, description, reviews: reviewCount } = meal;
+  // const [likes, setLikes] = useState(parseInt(meal.likes, 10))
+  // const navigate = useNavigate()
+  // const axiosSecure = useAxiosSecure()
+  // const {user} = useAuth()
+
+  // const handleLikeClick = async () =>  {
+  //   if(!user){
+  //     swal('You are not login', 'Please Login and then like', 'error')
+  //     navigate('/login')
+  //     return;
+  //   }
+  //   setLikes(likes + 1)
+
+  //   const updateLikesCount = {
+  //     likesData: likes + 1,
+  //   }
+
+
+  // //   try {
+  // //     const updatedData = await axiosSecure.patch(`/api/v1/likes/${_id}`, updateLikesCount);
+
+  // //     if (updatedData.data.modifiedCount > 0) {
+  // //         swal("Congratulations!", "Your like has been updated in the database successfully!", "success");
+  // //     } else {
+  // //         swal("Something went wrong", "Please try again", "error");
+  // //     }
+  // // } catch (error) {
+  // //     console.error("Error updating likes:", error);
+  // //     swal("Error", "Something went wrong while updating likes. Please try again", "error");
+  // }
+
+  //   // const updatedData = await axiosSecure.patch(`/api/v1/likes/${_id}`, updateLikesCount)
+  //   // {
+  //   //   if(updatedData.data.modifiedCount > 0){
+  //   //     swal("Congratulation!", "Your like  updated in database successfully!", "success");
+  //   //   }
+  //   //   else{
+  //   //     swal("Something wrong", "Please try again", "error")
+  //   //   }
+  //   // }
+
+  // }
   console.log(meal)
   const reviews = [
     'The Tandoori chicken was an absolute delight! The blend of spices created a flavor explosion that was nothing short of exquisite. Each bite was tender, juicy, and packed with the authentic taste of Indian cuisine. A definite must-try for anyone seeking a culinary adventure!',
@@ -38,7 +87,9 @@ const MealDetails = () => {
     <div className="flex flex-col lg:flex-row justify-center items-center gap-5">
     <div className="flex justify-center items-center gap-5 md:gap-10 flex-col md:flex-row">
     <div className="flex justify-center items-center gap-2">
-    <AiFillLike className="text-3xl"/> <span>{likes}</span>
+    <AiFillLike className="text-3xl"
+    // onClick={handleLikeClick}
+    /> <span>{likes}</span>
     </div>
     <p className="border border-solid border-four py-3 px-5">Review Count: <span className="font-bold">{reviewCount}</span></p>
     </div>
