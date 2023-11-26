@@ -12,11 +12,8 @@ const AddMeal = () => {
   const axiosSecure = useAxiosSecure()
 
   const onSubmit = async (data, event) => {
-    // Handle your form data here
-    // console.log(data);
     const clickedButton = event.nativeEvent.submitter;
   if (clickedButton.name === "addMeal") {
-    // console.log("Add Meal button clicked", data);
     try{
       const formData = new FormData();
       formData.append('image', data.mealImage[0])
@@ -29,7 +26,7 @@ const AddMeal = () => {
         data.mealImage = imageResponse.data.data.url;
         const response = await axiosSecure.post('/api/v1/addMeal', data)
         if(response.data.insertedId){
-          swal('Congratulations', 'Your registration is complete', 'success');
+          swal('Congratulations', 'Your meal Added', 'success');
         }else{
           swal('Something Wrong', 'Try again', 'error');
         }
@@ -39,9 +36,6 @@ const AddMeal = () => {
     }catch (error){
       console.log(error)
     }
-
-     
-    // Handle Add Meal logic
   } else if (clickedButton.name === "upcomingMeal") {
     try{
       const formData = new FormData();
@@ -65,18 +59,10 @@ const AddMeal = () => {
     }catch (error){
       console.log(error)
     }
-    // Handle Upcoming Meal logic
   }
   };
 
-  // const handleAddMeal = () => {
-  //   const data = getValues();
-  //   console.log("b1", data);
-  // };
-  // const handleUpcomingMeal = () => {
-  //   const data = getValues();
-  //   console.log("b2", data);
-  // };
+ 
 
   return (
     <div>

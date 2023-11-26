@@ -18,6 +18,8 @@ const AuthProvider = ({children}) => {
   const [loading, setLoading] = useState(true);
   // const axiosSecure = useAxiosSecure()
   // const navigate = useNavigate()
+  console.log(user)
+  console.log(googleUser)
 
   const createUser = (email, password) => {
     setLoading(true)
@@ -41,17 +43,30 @@ const AuthProvider = ({children}) => {
 
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser => {
-      console.log(currentUser)
-    const userEmail = currentUser?.email || user?.email || googleUser?.email;
+      // console.log(currentUser)
+    const userEmail = currentUser?.email || user?.email 
     const loggedUser = {email: userEmail}
-      console.log(user)
-      console.log(googleUser)
+      // console.log(user)
+      // console.log(googleUser)
       setUser(currentUser)
-      setLoading(false);
+      // setLoading(false);
       if(currentUser){
+        setLoading(true)
         axios.post('http://localhost:5000/api/v1/jwt', loggedUser, {withCredentials: true})
-        .then(response => {
-          console.log(response.data)
+        .then(() => {
+          axios.get(`http://localhost:5000/api/v1/user?email=${loggedUser.email}`)
+          .then(getRes => {
+            setGoogleUser(getRes.data)
+            setLoading(false)
+          })
+          .catch(getError => {
+            console.log('get error', getError)
+            setLoading(false)
+          })
+        })
+        .catch(tokenErr => {
+          console.log('Token error', tokenErr)
+          setLoading(false)
         })
       }else {
         axios.post('http://localhost:5000/api/v1/logout', loggedUser, {withCredentials: true})
@@ -67,7 +82,7 @@ const AuthProvider = ({children}) => {
     return () => {
       unSubscribe()
     }
-  },[googleUser, user])
+  },[])
 
   const authInfo = {
     user, 
