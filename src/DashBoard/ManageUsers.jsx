@@ -1,8 +1,31 @@
 
 const ManageUsers = () => {
   return (
-    <div>
-      
+    <div className="w-[90%] mx-auto">
+      <div className="overflow-x-auto">
+  <table className="min-w-full divide-y divide-gray-200">
+    <thead className="bg-gray-50">
+      <tr>
+        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User Name</th>
+        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User Email</th>
+        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Make Admin</th>
+        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subscription Status</th>
+      </tr>
+    </thead>
+    <tbody className="bg-white divide-y divide-gray-200">
+      {/* Row 1: Fake Data */}
+      <tr>
+        <td className="px-6 py-4 whitespace-nowrap">John Doe</td>
+        <td className="px-6 py-4 whitespace-nowrap">john.doe@example.com</td>
+        <td className="px-6 py-4 whitespace-nowrap">
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Make Admin</button>
+        </td>
+        <td className="px-6 py-4 whitespace-nowrap">Active</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
     </div>
   );
 };
