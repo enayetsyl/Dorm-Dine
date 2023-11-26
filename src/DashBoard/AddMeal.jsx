@@ -24,8 +24,13 @@ const AddMeal = () => {
       })
       if(imageResponse.data.status === 200){
         data.mealImage = imageResponse.data.data.url;
+        data.price = parseInt(data.price)
+        data.rating = parseInt(data.rating)
+        data.likes = parseInt(data.likes)
+        data.reviews = parseInt(data.reviews)
         const response = await axiosSecure.post('/api/v1/addMeal', data)
         if(response.data.insertedId){
+          console.log(data)
           swal('Congratulations', 'Your meal Added', 'success');
         }else{
           swal('Something Wrong', 'Try again', 'error');
@@ -47,6 +52,10 @@ const AddMeal = () => {
       })
       if(imageResponse.data.status === 200){
         data.mealImage = imageResponse.data.data.url;
+        data.price = parseInt(data.price)
+        data.rating = parseInt(data.rating)
+        data.likes = parseInt(data.likes)
+        data.reviews = parseInt(data.reviews)
         const response = await axiosSecure.post('/api/v1/upcomingMeal', data)
         if(response.data.insertedId){
           swal('Congratulations', 'Your upcoming meal added', 'success');

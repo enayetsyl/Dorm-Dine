@@ -8,7 +8,6 @@ import Home from "../Pages/Home";
 import Meals from "../Pages/Meals";
 import Register from "../Pages/Register";
 import Login from "../Pages/Login";
-import MealDetails from "../Pages/MealDetails";
 import UpcomingMeals from "../Pages/UpcomingMeals";
 import DashboardLayout from "../MainLayout/DashboardLayout";
 import MyProfile from "../DashBoard/MyProfile";
@@ -21,6 +20,7 @@ import AllMeals from "../DashBoard/AllMeals";
 import AllReviews from "../DashBoard/AllReviews";
 import ServeMeals from "../DashBoard/ServeMeals";
 import UpcomingMealsAdmin from "../DashBoard/UpcomingMealsAdmin";
+import MealDetails from "../Pages/MealDetails";
  
  const router = createBrowserRouter([
   {
