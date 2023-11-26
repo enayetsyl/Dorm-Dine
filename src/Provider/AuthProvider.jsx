@@ -18,8 +18,8 @@ const AuthProvider = ({children}) => {
   const [loading, setLoading] = useState(true);
   // const axiosSecure = useAxiosSecure()
   // const navigate = useNavigate()
-  console.log(user)
-  console.log(googleUser)
+  console.log('userinfo',user)
+  console.log('google user info', googleUser)
 
   const createUser = (email, password) => {
     setLoading(true)
@@ -56,7 +56,7 @@ const AuthProvider = ({children}) => {
         .then(() => {
           axios.get(`http://localhost:5000/api/v1/user?email=${loggedUser.email}`)
           .then(getRes => {
-            setGoogleUser(getRes.data)
+            setGoogleUser(getRes.data[0])
             setLoading(false)
           })
           .catch(getError => {

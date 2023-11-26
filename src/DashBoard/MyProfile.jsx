@@ -6,7 +6,6 @@ import noPhoto from '../assets/no-photo.png'
 
 const MyProfile = () => {
   const { user, googleUser, loading } = useAuth();
-  console.log(user, googleUser)
   return (
     <div>
     {
