@@ -1,5 +1,6 @@
 import { BsStar, BsStarFill } from "react-icons/bs";
 import cardImage from '../assets/5.jpg'
+import { Link } from "react-router-dom";
 
 const MealCard = ({meal}) => {
   const {_id, mealImage, mealTitle, price, rating } = meal;
@@ -38,7 +39,9 @@ const MealCard = ({meal}) => {
         </div>
       </div>
           <div>
-            <button className='w-full text-white bg-four rounded-b-xl py-4 uppercase text-xl font-bold'>Details</button>
+          <Link to={`/mealdetails/${_id}`}>
+          <button className='w-full text-white bg-four rounded-b-xl py-4 uppercase text-xl font-bold'>Details</button>
+          </Link>
           </div>
     </div>
   );

@@ -38,8 +38,9 @@ import UpcomingMealsAdmin from "../DashBoard/UpcomingMealsAdmin";
         element:<Meals/>
       },
       {
-        path: '/mealdetails',
-        element:<MealDetails/>
+        path: '/mealdetails/:id',
+        element:<MealDetails/>,
+        loader: ({params}) => fetch(`http://localhost:5000/api/v1/meals/${params.id}`),
       },
       {
         path: '/upcomingmeals',
