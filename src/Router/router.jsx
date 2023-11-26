@@ -21,6 +21,7 @@ import AllReviews from "../DashBoard/AllReviews";
 import ServeMeals from "../DashBoard/ServeMeals";
 import UpcomingMealsAdmin from "../DashBoard/UpcomingMealsAdmin";
 import MealDetails from "../Pages/MealDetails";
+import Checkout from "../Pages/Checkout";
  
  const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ import MealDetails from "../Pages/MealDetails";
       {
         path: '/upcomingmeals',
         element:<UpcomingMeals/>
+      },
+      {
+        path: '/checkout',
+        element:<Checkout/>
       },
       // {
       //   path: '/addjob',

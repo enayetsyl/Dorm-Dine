@@ -16,8 +16,9 @@ const AuthProvider = ({children}) => {
   const [user, setUser] = useState(null);
   const [googleUser, setGoogleUser] = useState(null)
   const [loading, setLoading] = useState(true);
-  // const axiosSecure = useAxiosSecure()
-  // const navigate = useNavigate()
+  const [membershipData, setMembershipData] = useState(null)
+  
+
   console.log('userinfo',user)
   console.log('google user info', googleUser)
 
@@ -75,8 +76,6 @@ const AuthProvider = ({children}) => {
           // navigate('/login')
         })
       }
-
-
     }))
 
     return () => {
@@ -94,6 +93,8 @@ const AuthProvider = ({children}) => {
     setUser,
     googleUser,
     setGoogleUser,
+    membershipData,
+    setMembershipData
   }
 
   return (

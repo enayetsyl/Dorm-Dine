@@ -3,7 +3,10 @@ import cardImage2 from '../assets/gold.jpg'
 import cardImage3 from '../assets/platinum.jpg'
 import { AwesomeButton } from 'react-awesome-button';
 import Container from './Container';
+import { Link } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 const MemberSection = () => {
+  const {setMembershipData} = useAuth()
   return (
     <Container>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-5 px-5'>
@@ -19,7 +22,18 @@ const MemberSection = () => {
       <button className='bg-four text-white py-1 px-3 font-bold absolute rounded-3xl'>4000.00 TK</button>
      </div>
     <p className='p-5 text-center text-gray-400 text-base font-medium'>As line silver you will get all the common food items that an ordinary people consume.</p>
-    <div className='flex justify-center mb-5'><AwesomeButton type="primary" className='aws-btn font-bold px-20 ' >Upgrade to Silver</AwesomeButton></div>
+    <div 
+    onClick={()=> setMembershipData({
+      type : 'silver',
+      price: 4000
+    })}
+    className='flex justify-center mb-5'>
+      <Link to='/checkout'
+      
+      >
+      <AwesomeButton type="primary" className='aws-btn font-bold px-20 ' >Upgrade to Silver</AwesomeButton>
+      </Link>
+      </div>
      </div>
     </div>
       {/* gold card */}
@@ -34,7 +48,17 @@ const MemberSection = () => {
       <button className='bg-four text-white py-1 px-3 font-bold absolute rounded-3xl'>9000.00 TK</button>
      </div>
     <p className='p-5 text-center text-gray-400 text-base font-medium'>You will get food that all the middle class people consume.</p>
-    <div className='flex justify-center mb-5'><AwesomeButton type="primary" className='aws-btn font-bold px-20' >Upgrade to Gold</AwesomeButton></div>
+    <div className='flex justify-center mb-5'
+    onClick={()=> setMembershipData({
+      type : 'gold',
+      price: 9000
+    })}
+    >
+      <Link to='/checkout'>
+      <AwesomeButton type="primary" className='aws-btn font-bold px-20' >Upgrade to Gold</AwesomeButton>
+      </Link>
+      
+      </div>
      </div>
     </div>
       {/* platinum card */}
@@ -49,7 +73,16 @@ const MemberSection = () => {
       <button className='bg-four text-white py-1 px-3 font-bold absolute rounded-3xl'>18,000.00 TK</button>
      </div>
     <p className='p-5 text-center text-gray-400 text-base font-medium'>You will receive food like top 1% people of the world. Do not waste.</p>
-    <div className='flex justify-center mb-5'><AwesomeButton type="primary" className='aws-btn font-bold px-20' >Upgrade to Platinum</AwesomeButton></div>
+    <div className='flex justify-center mb-5'
+    onClick={()=> setMembershipData({
+      type : 'platinum',
+      price: 18000
+    })}
+    >
+      <Link to='/checkout'>
+      <AwesomeButton type="primary" className='aws-btn font-bold px-20' >Upgrade to Platinum</AwesomeButton>
+      </Link>
+      </div>
      </div>
     </div>
       

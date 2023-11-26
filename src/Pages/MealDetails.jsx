@@ -15,6 +15,7 @@ const MealDetails = () => {
   const navigate = useNavigate()
   const axiosSecure = useAxiosSecure()
   const {user} = useAuth()
+
   const handleLikeClick = async () => {
   if(!user){
       swal('You are not login', 'Please Login and then like', 'error')
@@ -40,6 +41,14 @@ const MealDetails = () => {
     }
     catch(error){
       console.log(error)
+    }
+  }
+
+  const handleRequestMeal = () => {
+    if(!user){
+      swal('You are not login', 'Please Login and then like', 'error')
+      navigate('/login')
+      return;
     }
   }
 
@@ -69,7 +78,11 @@ const MealDetails = () => {
     </div>
     <p className="border border-solid border-four py-3 px-5">Review Count: <span className="font-bold">{reviewCount}</span></p>
     </div>
-    <AwesomeButton type="primary" className='aws-btn font-bold px-20' >Request Meal</AwesomeButton>
+    <div onClick={handleRequestMeal}>
+    <AwesomeButton type="primary" className='aws-btn font-bold px-20'
+    
+    >Request Meal</AwesomeButton>
+    </div>
     </div>
     <div className="space-y-5 text-black">
       <h2 className="text-2xl"><span className="font-bold ">Ingredients:</span>{ingredients}</h2>
