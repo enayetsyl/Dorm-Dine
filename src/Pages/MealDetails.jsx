@@ -7,14 +7,18 @@ import { useState } from "react";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import useAuth from "../hooks/useAuth";
 import swal from "sweetalert";
+import MealReview from "../Components/MealReview";
+import useAxiosPublic from "../hooks/useAxiosPublic";
 
 const MealDetails = () => {
-  const meal = useLoaderData()
-  const {_id, mealImage, mealTitle, price, rating, postTime, distributorName, ingredients, description } = meal;
+  const mealData = useLoaderData()
+  const [meal, setMeal] = useState(mealData)
+  const {_id, mealImage, mealTitle, price, rating, postTime, distributorName, ingredients, description, userReview } = meal;
   const [likes, setLikes] = useState(parseInt(meal.likes, 10))
   const [reviewCount, setReviewCount] = useState(parseInt(meal.reviews, 10))
   const navigate = useNavigate()
   const axiosSecure = useAxiosSecure()
+  const axiosPublic = useAxiosPublic()
   const {user, googleUser} = useAuth()
 
   console.log(googleUser)
@@ -93,13 +97,17 @@ console.log(requestMealData)
     }
     const response = await axiosSecure.post('/api/v1/review', review)
     if(response.data.insertedId){
+      const updatedMeal = await axiosPublic.get(`/api/v1/meals/${_id}`)
+      if(updatedMeal.data)
+      setMeal(updatedMeal.data)
       swal('Congratulation', 'Your request is successful', 'Success')
-      console.log(response.data)
+      console.log(updatedMeal.data)
     }
     console.log(review)
   }
 
   return (
+  
     <div>
       <Container>
       {/* image, rating, distributor name, post time */}
@@ -138,12 +146,13 @@ console.log(requestMealData)
     </div>
     <div className="space-y-2">
       <h1 className="uppercase text-center py-5 text-5xl font-bold drop-shadow-xl">reviews</h1>
-      {/* {
-        reviews.map((review,index) => <MealReview
+      {
+       
+        userReview.length > 0 ? ( userReview.map((review,index) => <MealReview
         key={index}
         review={review}
-        />)
-      } */}
+        />)) : ( <p>No Review available for this product</p>  )
+      }
     </div>
     <div> 
       <form onSubmit={handleReview}>
