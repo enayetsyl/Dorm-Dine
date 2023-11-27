@@ -10,8 +10,9 @@ import swal from "sweetalert";
 
 const MealDetails = () => {
   const meal = useLoaderData()
-  const {_id, mealImage, mealTitle, price, rating, postTime, distributorName, ingredients, description, reviews: reviewCount } = meal;
+  const {_id, mealImage, mealTitle, price, rating, postTime, distributorName, ingredients, description } = meal;
   const [likes, setLikes] = useState(parseInt(meal.likes, 10))
+  const [reviewCount, setReviewCount] = useState(parseInt(meal.reviews, 10))
   const navigate = useNavigate()
   const axiosSecure = useAxiosSecure()
   const {user, googleUser} = useAuth()
@@ -74,6 +75,30 @@ console.log(requestMealData)
     }
   }
 
+  const handleReview = async (e) => {
+    e.preventDefault()
+    if(!user){
+      swal('You are not login', 'Please Login and then review', 'error')
+      navigate('/login')
+      return;
+    }
+    const reviewText = e.target.review.value;
+    setReviewCount(reviewCount + 1)
+    const review = {
+      reviews: reviewCount + 1,
+      reviewText,
+      reviewerId: googleUser._id,
+      mealId: _id,
+      meal: meal,
+    }
+    const response = await axiosSecure.post('/api/v1/review', review)
+    if(response.data.insertedId){
+      swal('Congratulation', 'Your request is successful', 'Success')
+      console.log(response.data)
+    }
+    console.log(review)
+  }
+
   return (
     <div>
       <Container>
@@ -121,10 +146,10 @@ console.log(requestMealData)
       } */}
     </div>
     <div> 
-      <form>
+      <form onSubmit={handleReview}>
         <div className="flex flex-col justify-center items-center gap-5">
         <label htmlFor="review" className="font-bold text-2xl">Give a review:</label>
-        <textarea name="review" id="review" cols="80" rows="4" className="border border-solid border-four w-full"></textarea>
+        <textarea name="review" id="review" cols="80" rows="4" className="border border-solid border-four w-full p-5" placeholder="Write your review here" required></textarea>
         </div>
         <input type="submit" value="Submit" className="bg-four text-white py-3 px-5 rounded-lg text-xl font-semibold my-5 w-full" />
       </form>

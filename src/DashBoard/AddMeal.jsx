@@ -28,6 +28,7 @@ const AddMeal = () => {
         data.rating = parseInt(data.rating)
         data.likes = parseInt(data.likes)
         data.reviews = parseInt(data.reviews)
+        data.reviewText = [];
         const response = await axiosSecure.post('/api/v1/addMeal', data)
         if(response.data.insertedId){
           console.log(data)
@@ -56,6 +57,7 @@ const AddMeal = () => {
         data.rating = parseInt(data.rating)
         data.likes = parseInt(data.likes)
         data.reviews = parseInt(data.reviews)
+        data.reviewText = [];
         const response = await axiosSecure.post('/api/v1/upcomingMeal', data)
         if(response.data.insertedId){
           swal('Congratulations', 'Your upcoming meal added', 'success');

@@ -22,6 +22,7 @@ import ServeMeals from "../DashBoard/ServeMeals";
 import UpcomingMealsAdmin from "../DashBoard/UpcomingMealsAdmin";
 import MealDetails from "../Pages/MealDetails";
 import Checkout from "../Pages/Checkout";
+import PrivateRoute from "./PrivateRoute";
  
  const router = createBrowserRouter([
   {
@@ -49,7 +50,7 @@ import Checkout from "../Pages/Checkout";
       },
       {
         path: '/checkout',
-        element:<Checkout/>
+        element:<PrivateRoute><Checkout/></PrivateRoute>
       },
       // {
       //   path: '/addjob',
