@@ -14,8 +14,9 @@ const MealDetails = () => {
   const [likes, setLikes] = useState(parseInt(meal.likes, 10))
   const navigate = useNavigate()
   const axiosSecure = useAxiosSecure()
-  const {user} = useAuth()
+  const {user, googleUser} = useAuth()
 
+  console.log(googleUser)
   const handleLikeClick = async () => {
   if(!user){
       swal('You are not login', 'Please Login and then like', 'error')
@@ -44,11 +45,32 @@ const MealDetails = () => {
     }
   }
 
-  const handleRequestMeal = () => {
+  const handleRequestMeal = async () => {
     if(!user){
       swal('You are not login', 'Please Login and then like', 'error')
       navigate('/login')
       return;
+    }
+    if(googleUser.package !== 'silver' && googleUser.package !== 'gold' && googleUser.package !== 'platinum'){
+      swal('You do not have any membership package.', 'Please buy a package and then request a meal.', 'error')
+      navigate('/')
+      return;
+    }
+    const requestMealData = {
+      ...meal,
+      userId: googleUser._id,
+      status: 'pending'
+    }
+console.log(requestMealData)
+    const response = await axiosSecure.post('/api/v1/mealrequest', requestMealData)
+    if(response.data.insertedId){
+      swal('Congratulation', 'Your request is successful', 'Success')
+    }else if (response.data.code === 11000){
+      swal('Duplicate Error', 'You cannot request same meal twice. Order a new meal', 'Error')
+      navigate('/meals')
+    } else{
+      swal('Something Wrong', 'Try again later', 'Error')
+      console.log(response.data)
     }
   }
 

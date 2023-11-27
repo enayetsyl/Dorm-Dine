@@ -25,13 +25,13 @@ const Meals = () => {
       </div>
 
       <div className="py-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+       {/* <MealCard/>
        <MealCard/>
        <MealCard/>
        <MealCard/>
        <MealCard/>
        <MealCard/>
-       <MealCard/>
-       <MealCard/>
+       <MealCard/> */}
         </div>    
     </div>
     </Container>

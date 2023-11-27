@@ -2,6 +2,7 @@ import { async } from "@firebase/util";
 import useAuth from "../hooks/useAuth";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import swal from "sweetalert";
+import useAxiosPublic from "../hooks/useAxiosPublic";
 
 
 // _id
@@ -20,8 +21,9 @@ import swal from "sweetalert";
 // "bronze"
 
 const Checkout =  () => {
-  const {membershipData, googleUser} = useAuth()
+  const {membershipData, googleUser, setGoogleUser} = useAuth()
   const axiosSecure = useAxiosSecure()
+  const axiosPublic = useAxiosPublic()
   console.log(membershipData)
   console.log(googleUser)
 
@@ -33,7 +35,11 @@ const Checkout =  () => {
 console.log(membershipPackage)
       const response = await axiosSecure.put(`/api/v1/checkout/${googleUser._id}`, membershipPackage)
       if(response.data.modifiedCount > 0){
-        swal('Congratulation', 'You successfully purchase the package', "success")
+        const getUserInfo = await axiosPublic.get(`/api/v1/user?email=${googleUser.email}`)
+        if(getUserInfo.data.length > 0){
+          setGoogleUser(getUserInfo.data[0])
+          swal('Congratulation', 'You successfully purchase the package', "success")
+        }
       }
 
     }catch(error){
