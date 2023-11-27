@@ -1,10 +1,61 @@
+import { useQuery } from "@tanstack/react-query";
+import useAuth from "../hooks/useAuth";
+import useAxiosSecure from "../hooks/useAxiosSecure";
+import swal from "sweetalert";
 
 const RequestedMeals = () => {
+  const {googleUser} = useAuth()
+  const axiosSecure = useAxiosSecure()
+
+ const {data: mealData, isLoading, isError, refetch} = useQuery({
+  queryKey: ['requestMeal'],
+  queryFn: async () => {
+    const response = await axiosSecure.get(`/api/v1/requestmeal?userId=${googleUser._id}`)
+    return response.data
+  }
+ })
+
+ if (isLoading) {
+  return <p>Loading...</p>;
+}
+
+if (isError) {
+  return <p>Error loading data</p>;
+}
+
+const handleCancelMeal = (id) => {
+  console.log('clicked', id)
+  swal({
+    title: "Are you sure?",
+    text: "Once deleted, you will not be able to get the meal",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  }).then(async (willDelete) => {
+    if (willDelete) {
+        const res = await axiosSecure.delete(`/api/v1/requestmeal/${id}`);
+        console.log(res.data);
+        if (res.data.deletedCount > 0) {
+            // refetch to update the ui
+            refetch();
+            swal("Your request meal has been deleted!", {
+              icon: "success",
+            });
+        }
+    }
+    else {
+      swal("Sorry we can not delete your meal this time. Try again later.");
+    }
+});
+}
+
+
+console.log(mealData)
   return (
     <div className="w-[90%] mx-auto">
       <div className="overflow-x-auto">
   <table className="min-w-full divide-y divide-gray-200">
-    <thead className="bg-gray-50">
+    <thead className="bg-five">
       <tr>
         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Meal Title</th>
         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Number of Likes</th>
@@ -13,39 +64,23 @@ const RequestedMeals = () => {
         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cancel Button</th>
       </tr>
     </thead>
-    <tbody className="bg-white divide-y divide-gray-200">
+    <tbody className="bg-white divide-y divide-five">
       {/* <!-- Row 1: Fake Data --> */}
-      <tr>
-        <td className="px-6 py-4 whitespace-nowrap">Delicious Pizza</td>
-        <td className="px-6 py-4 whitespace-nowrap">120</td>
-        <td className="px-6 py-4 whitespace-nowrap">85</td>
-        <td className="px-6 py-4 whitespace-nowrap">Active</td>
+      {
+        mealData.map(meal =>  (
+          <tr key={meal._id}>
+        <td className="px-6 py-4 whitespace-nowrap" >{meal.mealTitle}</td>
+        <td className="px-6 py-4 whitespace-nowrap">{meal.likes}</td>
+        <td className="px-6 py-4 whitespace-nowrap">{meal.reviews}</td>
+        <td className="px-6 py-4 whitespace-nowrap capitalize">{meal.status}</td>
         <td className="px-6 py-4 whitespace-nowrap">
-          <button className="text-indigo-600 hover:text-indigo-900">Cancel</button>
+          <button className="bg-four py-2 px-5 text-white rounded-lg"
+          onClick={() => handleCancelMeal(meal._id)}
+          >Cancel</button>
         </td>
       </tr>
-
-      {/* <!-- Row 2: Fake Data --> */}
-      <tr>
-        <td className="px-6 py-4 whitespace-nowrap">Healthy Salad</td>
-        <td className="px-6 py-4 whitespace-nowrap">90</td>
-        <td className="px-6 py-4 whitespace-nowrap">50</td>
-        <td className="px-6 py-4 whitespace-nowrap">Pending</td>
-        <td className="px-6 py-4 whitespace-nowrap">
-          <button className="text-indigo-600 hover:text-indigo-900">Cancel</button>
-        </td>
-      </tr>
-
-      {/* <!-- Row 3: Fake Data --> */}
-      <tr>
-        <td className="px-6 py-4 whitespace-nowrap">Sushi Delight</td>
-        <td className="px-6 py-4 whitespace-nowrap">150</td>
-        <td className="px-6 py-4 whitespace-nowrap">120</td>
-        <td className="px-6 py-4 whitespace-nowrap">Completed</td>
-        <td className="px-6 py-4 whitespace-nowrap">
-          <button className="text-indigo-600 hover:text-indigo-900">Cancel</button>
-        </td>
-      </tr>
+        ))
+      }
     </tbody>
   </table>
 </div>
