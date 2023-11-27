@@ -66,7 +66,6 @@ const MealDetails = () => {
       userId: googleUser._id,
       status: 'pending'
     }
-console.log(requestMealData)
     const response = await axiosSecure.post('/api/v1/mealrequest', requestMealData)
     if(response.data.insertedId){
       swal('Congratulation', 'Your request is successful', 'Success')

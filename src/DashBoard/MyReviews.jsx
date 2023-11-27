@@ -1,5 +1,51 @@
+import { useQuery } from "@tanstack/react-query";
+import useAuth from "../hooks/useAuth";
+import useAxiosSecure from "../hooks/useAxiosSecure";
+import { Link } from "react-router-dom";
+import swal from "sweetalert";
 
 const MyReviews = () => {
+  const {user, googleUser} = useAuth();
+
+  const axiosSecure = useAxiosSecure()
+
+  const {data, isLoading, refetch} = useQuery({
+    queryKey:['userReview'],
+    queryFn: async () => {
+      const response = await axiosSecure.get(`/api/v1/userreview/${googleUser._id}`)
+      return response.data;
+    }
+  })
+
+  const handleReviewDelete = (id) => {
+    console.log(id)
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to see this review",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then(async (willDelete) => {
+      if (willDelete) {
+          const res = await axiosSecure.delete(`/api/v1/userreview/${id}`);
+          console.log(res.data);
+          if (res.data.deletedCount > 0) {
+              // refetch to update the ui
+              refetch();
+              swal("Your request meal has been deleted!", {
+                icon: "success",
+              });
+          }
+      }
+      else {
+        swal("Sorry we can not delete your meal this time. Try again later.");
+      }
+  })
+  }
+
+  console.log('user',user)
+  console.log('google user', googleUser)
+  console.log('review data', data)
   return (
     <div>
       <div className="overflow-x-auto">
@@ -16,20 +62,33 @@ const MyReviews = () => {
     </thead>
     <tbody className="bg-white divide-y divide-gray-200">
       {/* Row 1: Fake Data */}
-      <tr>
-        <td className="px-6 py-4 whitespace-nowrap">Tasty Burger</td>
-        <td className="px-6 py-4 whitespace-nowrap">95</td>
-        <td className="px-6 py-4 whitespace-nowrap">75</td>
+    {
+      data.length > 0 ? (
+        data.map((review , index) => (
+          <tr key={index}>
+        <td className="px-6 py-4 whitespace-nowrap">{review.meal.mealTitle}</td>
+        <td className="px-6 py-4 whitespace-nowrap">{review.meal.likes}</td>
+        <td className="px-6 py-4 whitespace-nowrap">{review.meal.reviews}</td>
         <td className="px-6 py-4 whitespace-nowrap">
           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button>
         </td>
         <td className="px-6 py-4 whitespace-nowrap">
-          <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
+          <button 
+          onClick={()=> handleReviewDelete(review._id)}
+          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
         </td>
         <td className="px-6 py-4 whitespace-nowrap">
+          <Link to={`/mealdetails/${review.meal._id}`}>
           <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">View</button>
+          </Link>
+
         </td>
       </tr>
+        ))
+      ) : (<p>You have no review.</p>)
+    }
+
+      
     </tbody>
   </table>
 </div>

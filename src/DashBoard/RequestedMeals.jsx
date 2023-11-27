@@ -24,7 +24,6 @@ if (isError) {
 }
 
 const handleCancelMeal = (id) => {
-  console.log('clicked', id)
   swal({
     title: "Are you sure?",
     text: "Once deleted, you will not be able to get the meal",

@@ -1,4 +1,3 @@
-import { async } from "@firebase/util";
 import useAuth from "../hooks/useAuth";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import swal from "sweetalert";
