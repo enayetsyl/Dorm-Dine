@@ -6,7 +6,7 @@ const PrivateRoute = ({children}) => {
   const location = useLocation()
 
   if (loading){
-    return <p className="text-center text-7xl text-one font-bold pt-32">Loading</p>
+    return <Navigate state={location.pathname} to={'/login'} replace></Navigate>;
   }
   if(user){
     return children;
@@ -16,7 +16,3 @@ const PrivateRoute = ({children}) => {
 
 export default PrivateRoute;
 
-// change the path name of loading image
-// change the src of img tag
-// change the path of to in the Navigate tag
-// change the use context if you use custom hook

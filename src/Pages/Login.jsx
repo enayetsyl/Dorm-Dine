@@ -10,6 +10,8 @@ const Login = () => {
   const {signInUser, setUser, googleSignIn, setGoogleUser} = useAuth();
   const axiosSecure = useAxiosSecure()
   const location = useLocation();
+  console.log('location state', location.state)
+  console.log('only location', location)
   const navigate = useNavigate();
   const { register, 
     formState: { errors },

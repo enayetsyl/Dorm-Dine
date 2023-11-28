@@ -72,6 +72,7 @@ const CheckoutForm = () => {
         setTransactionId(paymentIntent.id)
         const membershipPackage = {
           package: membershipData.type,
+          badge:'gold',
         }
 
         const response = await axiosSecure.put(`/api/v1/checkout/${googleUser._id}`, membershipPackage)

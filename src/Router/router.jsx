@@ -88,45 +88,45 @@ import Contact from "../Pages/Contact";
       // ADMIN ROUTE
       {
         path:'adminProfile',
-        element:<AdminProfile/>
+        element:<PrivateRoute><AdminProfile/></PrivateRoute>
       },
       {
         path:'manageUsers',
-        element:<ManageUsers/>
+        element:<PrivateRoute><ManageUsers/></PrivateRoute>
       },
       {
         path:'addMeal',
-        element:<AddMeal/>
+        element:<PrivateRoute><AddMeal/></PrivateRoute>
       },
       {
         path:'allMeals',
-        element:<AllMeals/>
+        element:<PrivateRoute><AllMeals/></PrivateRoute>
       },
       {
         path:'allReviews',
-        element:<AllReviews/>
+        element:<PrivateRoute><AllReviews/></PrivateRoute>
       },
       {
         path:'serveMeals',
-        element:<ServeMeals/>
+        element:<PrivateRoute><ServeMeals/></PrivateRoute>
       },
       {
         path:'upcomingMeals',
-        element:<UpcomingMealsAdmin/>
+        element:<PrivateRoute><UpcomingMealsAdmin/></PrivateRoute>
       },
 
       // USER ROUTE
       {
         path:'myProfile',
-        element:<MyProfile/>,
+        element:<PrivateRoute><MyProfile/></PrivateRoute>,
       },
       {
         path:'requestedMeals',
-        element:<RequestedMeals/>,
+        element:<PrivateRoute><RequestedMeals/></PrivateRoute>,
       },
       {
         path:'myReviews',
-        element:<MyReviews/>,
+        element:<PrivateRoute><MyReviews/></PrivateRoute>,
       },
     ]
   }
