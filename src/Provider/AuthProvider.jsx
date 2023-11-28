@@ -19,8 +19,8 @@ const AuthProvider = ({children}) => {
   const [membershipData, setMembershipData] = useState(null)
   
 
-  console.log('userinfo',user)
-  console.log('google user info', googleUser)
+  // console.log('userinfo',user)
+  // console.log('google user info', googleUser)
 
   const createUser = (email, password) => {
     setLoading(true)
@@ -44,7 +44,7 @@ const AuthProvider = ({children}) => {
 
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser => {
-      console.log('auth line 47', currentUser)
+      // console.log('auth line 47', currentUser)
     const userEmail = currentUser?.email || user?.email 
     const loggedUser = {email: userEmail}
       // console.log(user)

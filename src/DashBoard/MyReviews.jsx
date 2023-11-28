@@ -43,6 +43,10 @@ const MyReviews = () => {
   })
   }
 
+  if(isLoading){
+    return <p>Loading</p>
+  }
+
   console.log('user',user)
   console.log('google user', googleUser)
   console.log('review data', data)
@@ -63,7 +67,7 @@ const MyReviews = () => {
     <tbody className="bg-white divide-y divide-gray-200">
       {/* Row 1: Fake Data */}
     {
-      data.length > 0 ? (
+      data?.length > 0 ? (
         data.map((review , index) => (
           <tr key={index}>
         <td className="px-6 py-4 whitespace-nowrap">{review.meal.mealTitle}</td>

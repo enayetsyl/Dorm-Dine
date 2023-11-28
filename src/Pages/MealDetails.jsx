@@ -21,7 +21,6 @@ const MealDetails = () => {
   const axiosPublic = useAxiosPublic()
   const {user, googleUser} = useAuth()
 
-  console.log(googleUser)
   const handleLikeClick = async () => {
   if(!user){
       swal('You are not login', 'Please Login and then like', 'error')
@@ -128,7 +127,7 @@ const MealDetails = () => {
     <div className="flex flex-col lg:flex-row justify-center items-center gap-5">
     <div className="flex justify-center items-center gap-5 md:gap-10 flex-col md:flex-row">
     <div className="flex justify-center items-center gap-2">
-    <AiFillLike className="text-3xl"
+    <AiFillLike className="text-3xl cursor-pointer"
     onClick={handleLikeClick}
     /> <span>{likes}</span>
     </div>
