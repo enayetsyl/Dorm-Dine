@@ -64,6 +64,8 @@ const MealDetails = () => {
     const requestMealData = {
       ...meal,
       userId: googleUser._id,
+      userName: googleUser.name,
+      userEmail: googleUser.email,
       status: 'pending'
     }
     const response = await axiosSecure.post('/api/v1/mealrequest', requestMealData)

@@ -1,5 +1,33 @@
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../hooks/useAxiosSecure";
+import swal from "sweetalert";
 
 const ServeMeals = () => {
+  const axiosSecure = useAxiosSecure()
+  const {data, isLoading, refetch} = useQuery({
+    queryKey: ['servemeal'],
+    queryFn: async () => {
+      const result = await axiosSecure.get('/api/v1/serveMeal');
+      return result.data;
+    }
+  })
+  if(isLoading){
+    return<p>Loading</p>
+  }
+
+  const handleServeStatus = async (id) =>{
+    console.log(id)
+    const result = await axiosSecure.patch(`/api/v1/servestatus/${id}`)
+    console.log(result)
+    if(result.data.modifiedCount > 0){
+      swal("Congratulation", "The meal served", "Success")
+    }
+    refetch();
+  }
+
+  console.log(data)
+
+
   return (
     <div>
       <div className="overflow-x-auto">
@@ -15,15 +43,32 @@ const ServeMeals = () => {
     </thead>
     <tbody className="bg-white divide-y divide-gray-200">
       {/* Row 1: Fake Data */}
-      <tr>
-        <td className="px-6 py-4 whitespace-nowrap">Homestyle Pasta</td>
-        <td className="px-6 py-4 whitespace-nowrap">john.doe@example.com</td>
-        <td className="px-6 py-4 whitespace-nowrap">John Doe</td>
-        <td className="px-6 py-4 whitespace-nowrap">Pending</td>
+      {
+        data.length > 0 ? (
+          data.map((request, index) => (
+            <tr key={index}>
+        <td className="px-6 py-4 whitespace-nowrap">{request.mealTitle}</td>
+        <td className="px-6 py-4 whitespace-nowrap">j{request.userEmail}</td>
+        <td className="px-6 py-4 whitespace-nowrap">{request.userName}</td>
+        <td className="px-6 py-4 whitespace-nowrap capitalize">{request.status}</td>
         <td className="px-6 py-4 whitespace-nowrap">
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Serve</button>
+          {
+            request.status === 'pending' ? (
+              <button 
+          onClick={() => handleServeStatus(request._id)}
+          className="bg-four hover:bg-one text-white font-bold py-2 px-4 rounded">Serve</button>
+            ) : (
+              <button 
+          disabled
+          className="bg-three text-white font-bold py-2 px-4 rounded">Delivered</button>
+            )
+          }
         </td>
       </tr>
+          ))
+
+        ) : (<p>You have noe requested meal.</p>)
+      }
     </tbody>
   </table>
 </div>
