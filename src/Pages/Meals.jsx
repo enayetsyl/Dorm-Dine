@@ -20,6 +20,7 @@ const Meals = () => {
 
   const [selectedCategory, setSelectedCategory] = useState('')
   const [selectedPriceRange, setSelectedPriceRange] = useState('')
+  const [searchTerm, setSearchTerm] = useState('')
 
   if(isLoading){
     return <p>loading</p>
@@ -29,23 +30,34 @@ const Meals = () => {
     const categoryFilter = !selectedCategory || meal.mealCategory === selectedCategory;
 
     const priceFilter = !selectedPriceRange || (selectedPriceRange === 'below1000' && meal.price < 1000) || (selectedPriceRange === 'above1000' && meal.price >= 1000)
-    return categoryFilter && priceFilter
+
+    const searchFilter = !searchTerm || meal.mealTitle.toLowerCase().includes(searchTerm.toLowerCase())
+
+    return categoryFilter && priceFilter && searchFilter
   })
 
 console.log(data)
   return (
     <Container>
-      <div className="space-y-5">
+      <div className="space-y-5 py-10">
     
     {/* search bar */}
     <div >
-      <form action="" className="flex justify-center items-center gap-5">
-        <input type="text" name="search" id="" placeholder="Search Meal" className="border border-solid border-four rounded w-3/4 py-2 px-3"/>
-        <AwesomeButton type="primary" className='aws-btn font-bold px-20 w-1/4' >Search Meal</AwesomeButton>
+      <form 
+      onSubmit={(e)=> {
+        e.preventDefault()
+      }}
+      action="" 
+      className="flex flex-col md:flex-row justify-center items-center gap-5 w-[90%] mx-auto">
+        <input 
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        type="text" name="search" id="" placeholder="Search Meal" className="border border-solid border-four rounded w-3/4 py-2 px-3"/>
+        <AwesomeButton type="primary" className='aws-btn font-bold px-20 w-1/2 md:w-1/4' >Search Meal</AwesomeButton>
       </form>
       </div>
       {/* search by category and price range */}
-      <div className=" flex justify-center items-center gap-10">
+      <div className=" flex flex-col md:flex-row justify-center items-center gap-10">
       <AwesomeButton type="primary" className='aws-btn font-bold px-20 ' >Filter by category</AwesomeButton>
       <div>
     <label htmlFor="mealCategory" className="mr-2">Select by category:</label>
@@ -59,8 +71,9 @@ console.log(data)
       <option value="dinner">Dinner</option>
     </select>
   </div>
-      <AwesomeButton type="primary" className='aws-btn font-bold px-20 ' >Filter by Price</AwesomeButton>
       </div>
+      <div className=" flex flex-col md:flex-row justify-center items-center gap-10">
+      <AwesomeButton type="primary" className='aws-btn font-bold px-20 ' >Filter by Price</AwesomeButton>
       <div>
             <label htmlFor="priceRange" className="mr-2">
               Filter by Price:
@@ -77,6 +90,7 @@ console.log(data)
               <option value="above1000">Above 1000</option>
             </select>
           </div>
+      </div>
       <div className="py-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
       {
         filteredData?.length > 0 ? (
