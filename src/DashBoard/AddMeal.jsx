@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import swal from "sweetalert";
 import axios from "axios";
+import useAuth from "../hooks/useAuth";
 
 
 const VITE_IMAGE_HOSTING_KEY = import.meta.env.VITE_IMAGE_HOSTING_KEY;
@@ -10,6 +11,7 @@ const image_hosting_api = `https://api.imgbb.com/1/upload?key=${VITE_IMAGE_HOSTI
 const AddMeal = () => {
   const { register, handleSubmit } = useForm();
   const axiosSecure = useAxiosSecure()
+  const {googleUser} = useAuth()
 
   const onSubmit = async (data, event) => {
     const clickedButton = event.nativeEvent.submitter;
@@ -28,7 +30,7 @@ const AddMeal = () => {
         data.rating = parseInt(data.rating)
         data.likes = parseInt(data.likes)
         data.reviews = parseInt(data.reviews)
-        data.reviewText = [];
+        data.adminId = googleUser._id;
         const response = await axiosSecure.post('/api/v1/addMeal', data)
         if(response.data.insertedId){
           console.log(data)
@@ -57,7 +59,7 @@ const AddMeal = () => {
         data.rating = parseInt(data.rating)
         data.likes = parseInt(data.likes)
         data.reviews = parseInt(data.reviews)
-        data.reviewText = [];
+        data.adminId = googleUser._id;
         const response = await axiosSecure.post('/api/v1/upcomingMeal', data)
         if(response.data.insertedId){
           swal('Congratulations', 'Your upcoming meal added', 'success');
