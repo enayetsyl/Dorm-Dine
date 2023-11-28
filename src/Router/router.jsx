@@ -23,6 +23,7 @@ import UpcomingMealsAdmin from "../DashBoard/UpcomingMealsAdmin";
 import MealDetails from "../Pages/MealDetails";
 import Checkout from "../Pages/Checkout";
 import PrivateRoute from "./PrivateRoute";
+import Contact from "../Pages/Contact";
  
  const router = createBrowserRouter([
   {
@@ -72,6 +73,10 @@ import PrivateRoute from "./PrivateRoute";
       {
         path: '/login',
         element:<Login/>
+      },
+      {
+        path: '/contact',
+        element:<Contact/>
       },
      
     ]

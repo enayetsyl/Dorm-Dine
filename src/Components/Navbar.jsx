@@ -5,6 +5,7 @@ import { GiHamburgerMenu } from 'react-icons/gi';
 import { AwesomeButton } from "react-awesome-button";
 import 'react-awesome-button/dist/styles.css';
 import './button.css'
+import nophoto from '../assets/no-photo.png'
 // import { IoMdNotifications } from 'react-icons/io';
 
 import logo from '../assets/titleIcon.png';
@@ -18,7 +19,8 @@ const Navbar = () => {
   const [accountActive, setAccountActive] = useState(false);
   const [open, setIsOpen] = useState(false);
   // const [userLoggedIn, setUserLoggedIn] = useState(false);
-  const {user, logOut} = useAuth();
+  const {user,googleUser, logOut} = useAuth();
+  // console.log(user)
 
   const navData = [
     {
@@ -33,10 +35,10 @@ const Navbar = () => {
       text: 'Upcoming Meals',
       link: '/upcoming-meals',
     },
-    {
-      text: 'Contact Us',
-      link: '/contact',
-    },
+    // {
+    //   text: 'Contact Us',
+    //   link: '/contact',
+    // },
   ];
 
   const subMenuIndicator = (type) => {
@@ -110,7 +112,7 @@ const Navbar = () => {
               {user ? (
                 <div className="text-xl flex gap-1 items-center hover:text-one duration-500 relative">
                   <img
-                    src=""
+                    src={user.photoURL ? user.photoURL : nophoto}
                     alt=""
                     width={25}
                     height={25}
@@ -120,19 +122,19 @@ const Navbar = () => {
                   {accountActive && (
                     <div className="w-[150px] absolute top-[122%] right-0 text-base bg-white black-shadow p-3">
                       <ul className="flex flex-col gap-y-3">
-                        <li>UserName</li>
+                        <li>{googleUser.name}</li>
                         <li>
                           <Link to="/dashboard" className="hover:text-blue-500">
                             Dashboard
                           </Link>
                         </li>
                         <li>
-                          <button 
+                          <div 
                           onClick={logOut}
                           >
                             
                             <AwesomeButton type="primary" className='aws-btn font-bold px-20' >Logout</AwesomeButton>
-                          </button>
+                          </div>
                         </li>
                       </ul>
                     </div>
