@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import { Link } from "react-router-dom";
+import swal from "sweetalert";
 
 const AllReviews = () => {
   const axiosSecure = useAxiosSecure();
 
-  const {data, isLoading} = useQuery({
+  const {data, isLoading, refetch} = useQuery({
     queryKey:['allReview'],
     queryFn: async () => {
       const result = await axiosSecure.get('/api/v1/allreview')
@@ -14,6 +15,32 @@ const AllReviews = () => {
   })
   if(isLoading){
     return <p>Loading</p>
+  }
+
+  const handleDeleteReview = async (id) => {
+    console.log(id)
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to see this review",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then(async (willDelete) => {
+      if (willDelete) {
+          const res = await axiosSecure.delete(`/api/v1/review/${id}`);
+          if (res.data.deletedCount > 0) {
+              // refetch to update the ui
+              refetch();
+              swal("Your review has been deleted!", {
+                icon: "success",
+              });
+          }
+      }
+      else {
+        swal("Sorry we can not delete your review this time. Try again later.");
+      }
+  })
+
   }
 
   console.log(data)
@@ -40,7 +67,9 @@ const AllReviews = () => {
         <td className="px-6 py-4 whitespace-nowrap">{review.meal.likes}</td>
         <td className="px-6 py-4 whitespace-nowrap">{review.meal.reviews}</td>
         <td className="px-6 py-4 whitespace-nowrap">
-          <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
+          <button 
+          onClick={() => handleDeleteReview(review._id)}          
+          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
         </td>
         <td className="px-6 py-4 whitespace-nowrap">
           <Link to={`/mealdetails/${review.meal._id}`}>
