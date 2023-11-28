@@ -2,23 +2,13 @@ import useAuth from "../hooks/useAuth";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import swal from "sweetalert";
 import useAxiosPublic from "../hooks/useAxiosPublic";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import CheckoutForm from "../Components/CheckoutForm";
 
 
-// _id
-// 65618522c4e22b13ffbf539e
-// name
-// "Enayet"
-// email
-// "bottle@glass.com"
-// password
-// "123456A!"
-// role
-// "resident"
-// package
-// "none"
-// badge
-// "bronze"
 
+const stripePromise = loadStripe(import.meta.env.VITE_PAYMENT_GATEWAY_PK)
 const Checkout =  () => {
   const {membershipData, googleUser, setGoogleUser} = useAuth()
   const axiosSecure = useAxiosSecure()
@@ -26,26 +16,26 @@ const Checkout =  () => {
   console.log(membershipData)
   console.log(googleUser)
 
-  const handleCheckout = async () => {
-    try{
-      const membershipPackage = {
-        package: membershipData.type,
-      }
-console.log(membershipPackage)
-      const response = await axiosSecure.put(`/api/v1/checkout/${googleUser._id}`, membershipPackage)
-      if(response.data.modifiedCount > 0){
-        const getUserInfo = await axiosPublic.get(`/api/v1/user?email=${googleUser.email}`)
-        if(getUserInfo.data.length > 0){
-          setGoogleUser(getUserInfo.data[0])
-          swal('Congratulation', 'You successfully purchase the package', "success")
-        }
-      }
+//   const handleCheckout = async () => {
+//     try{
+//       const membershipPackage = {
+//         package: membershipData.type,
+//       }
+// console.log(membershipPackage)
+//       const response = await axiosSecure.put(`/api/v1/checkout/${googleUser._id}`, membershipPackage)
+//       if(response.data.modifiedCount > 0){
+//         const getUserInfo = await axiosPublic.get(`/api/v1/user?email=${googleUser.email}`)
+//         if(getUserInfo.data.length > 0){
+//           setGoogleUser(getUserInfo.data[0])
+//           swal('Congratulation', 'You successfully purchase the package', "success")
+//         }
+//       }
 
-    }catch(error){
-      console.log(error)
-    }
+//     }catch(error){
+//       console.log(error)
+//     }
 
-  }
+//   }
 
   return (
     <div className='pt-10'>
@@ -54,9 +44,14 @@ console.log(membershipPackage)
         <h2
         className='text-4xl text-white font-bold'
         >Price: ${membershipData?.price}</h2>
-        <button 
+        {/* <button 
         onClick={handleCheckout}
-        className="bg-four text-white py-5 px-20 font-bold text-xl mt-10 rounded-lg">Buy Now</button>
+        className="bg-four text-white py-5 px-20 font-bold text-xl mt-10 rounded-lg">Buy Now</button> */}
+      </div>
+      <div className="py-10">
+        <Elements stripe={stripePromise}>
+          <CheckoutForm></CheckoutForm>
+        </Elements>
       </div>
     </div>
   );
