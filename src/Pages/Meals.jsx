@@ -19,12 +19,18 @@ const Meals = () => {
   })
 
   const [selectedCategory, setSelectedCategory] = useState('')
+  const [selectedPriceRange, setSelectedPriceRange] = useState('')
 
   if(isLoading){
     return <p>loading</p>
   }
 
-  const filteredData = selectedCategory ? data.filter(meal => meal.mealCategory === selectedCategory) : data;
+  const filteredData = data.filter((meal) => {
+    const categoryFilter = !selectedCategory || meal.mealCategory === selectedCategory;
+
+    const priceFilter = !selectedPriceRange || (selectedPriceRange === 'below1000' && meal.price < 1000) || (selectedPriceRange === 'above1000' && meal.price >= 1000)
+    return categoryFilter && priceFilter
+  })
 
 console.log(data)
   return (
@@ -75,7 +81,7 @@ console.log(data)
       {
         filteredData?.length > 0 ? (
           
-            filteredData.map(meal => <MealCard key={meal._id} meal={meal}/>)
+            filteredData?.map(meal => <MealCard key={meal._id} meal={meal}/>)
           
           
         ) :(<p>No meal available</p>)
