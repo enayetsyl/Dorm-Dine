@@ -1,5 +1,36 @@
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../hooks/useAxiosSecure";
+import swal from "sweetalert";
 
 const UpcomingMealsAdmin = () => {
+  const axiosSecure = useAxiosSecure()
+
+  const {data, isLoading, refetch} = useQuery({
+    queryKey: ['upcomingmeal'],
+    queryFn: async () => {
+      const result = await axiosSecure.get('/api/v1/upcomingmeal')
+      return result.data
+    }
+  })
+
+  if(isLoading){
+    return <p>Loading</p>
+  }
+
+  const handlePublish = async (id) => {
+    console.log(id)
+    const result = await axiosSecure.post(`/api/v1/mealpublish/${id}`)
+    if(result.data.deletedCount > 0){
+      swal('Congratulation', "Your meal published successfully", 'success')
+    } else{
+      swal("Sorry", "Your meal couldn't be published this time, Please try again", "error")
+    }
+    refetch()
+  }
+
+  const sortedData = [...data].sort((a,b) => b.likes - a.likes)
+
+  console.log(sortedData)
   return (
     <div className="w-[90%] mx-auto">
       <div className="overflow-x-auto">
@@ -14,14 +45,30 @@ const UpcomingMealsAdmin = () => {
     </thead>
     <tbody className="bg-white divide-y divide-gray-200">
       {/* Row 1: Fake Data */}
-      <tr>
-        <td className="px-6 py-4 whitespace-nowrap">Special Sushi Platter</td>
-        <td className="px-6 py-4 whitespace-nowrap">120</td>
-        <td className="px-6 py-4 whitespace-nowrap">90</td>
+      {
+        sortedData.length > 0 ? (
+          sortedData.map((upcomingmeal,index) => (
+            <tr key={index}>
+        <td className="px-6 py-4 whitespace-nowrap">{upcomingmeal.mealTitle}</td>
+        <td className="px-6 py-4 whitespace-nowrap">{upcomingmeal.likes}</td>
+        <td className="px-6 py-4 whitespace-nowrap">{upcomingmeal.reviews}</td>
         <td className="px-6 py-4 whitespace-nowrap">
-          <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Publish</button>
+          {
+          upcomingmeal.likes >=10 ? (
+          <button 
+          onClick={()=> handlePublish(upcomingmeal._id)}
+          className="bg-four hover:bg-two text-white font-bold py-2 px-4 rounded">Publish</button>
+          ) : (
+          <button 
+          disabled
+          className="bg-three text-white font-bold py-2 px-4 rounded">Publish</button>
+          ) 
+          }
         </td>
       </tr>
+          ))
+        ) : (<p>No upcoming meal to show</p>)
+      }
     </tbody>
   </table>
 </div>
