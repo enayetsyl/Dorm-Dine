@@ -1,21 +1,47 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../hooks/useAxiosSecure";
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import swal from "sweetalert";
+import { useEffect, useState } from "react";
+import useAuth from "../hooks/useAuth";
 
 const AllMeals = () => {
-
+  const {count} = useLoaderData()
+  console.log('count', count)
+  const {loading} = useAuth()
+  const [itemsPerPage, setItemsPerPage] = useState(10)
+  const [currentPage, setCurrentPage] = useState(0)
+  const [data, setData] = useState([])
+  const numberOfPages = Math.ceil(count/itemsPerPage)
+  const pages = Array.from({length: numberOfPages}, (_, index) => index)
+  console.log(pages)
   const axiosSecure = useAxiosSecure();
 
-  const {data, isLoading, refetch} = useQuery({
-    queryKey: ['allMeal'],
-    queryFn: async () => {
-      const response = await axiosSecure.get('/api/v1/allmeal')
-      return response.data;
+  const handlePreviousPage = () => {
+    if(currentPage > 0){
+      setCurrentPage(currentPage - 1)
     }
-  })
+  }
 
-  if(isLoading){
+  const handleNextPage = () => {
+    if(currentPage < pages.length - 1){
+      setCurrentPage(currentPage + 1)
+    }
+  }
+
+  useEffect( () => {
+    fetch(`http://localhost:5000/api/v1/allmeal?page=${currentPage}&size=${itemsPerPage}`)
+    .then(res => res.json())
+    .then(data => setData(data))
+  },[currentPage, itemsPerPage])
+
+
+console.log(data)
+
+
+
+
+  if(loading){
     return <p>Loading</p>
   }
 
@@ -62,9 +88,8 @@ const AllMeals = () => {
       </tr>
     </thead>
     <tbody className="bg-white divide-y divide-gray-200">
-      {/* Row 1: Fake Data */}
      {
-      data.length > 0 ? (
+      data?.length > 0 ? (
         data.map((meal, index) => (
           <tr key={index}>
           <td className="px-6 py-4 whitespace-nowrap">{meal.mealTitle}</td>
@@ -95,6 +120,16 @@ const AllMeals = () => {
      }
     </tbody>
   </table>
+  <div className="flex py-4 justify-center gap-5">
+   <button onClick={handlePreviousPage}>Previous</button>
+    {
+      pages.map((page, idx) => <button
+      className={`${currentPage === page ? 'bg-one text-white py-2 px-4 rounded-full' : ''}`} 
+      onClick={() => setCurrentPage(page)}
+      key={idx}>{page}</button>)
+    }
+    <button onClick={handleNextPage}>Next</button>
+  </div>
 </div>
     </div>
   );

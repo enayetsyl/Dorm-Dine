@@ -93,7 +93,8 @@ import UpdateMeal from "../DashBoard/UpdateMeal";
       },
       {
         path:'manageUsers',
-        element:<PrivateRoute><ManageUsers/></PrivateRoute>
+        element:<PrivateRoute><ManageUsers/></PrivateRoute>,
+        loader: () => fetch('http://localhost:5000/api/v1/allUserCount')
       },
       {
         path:'addMeal',
@@ -106,19 +107,23 @@ import UpdateMeal from "../DashBoard/UpdateMeal";
       },
       {
         path:'allMeals',
-        element:<PrivateRoute><AllMeals/></PrivateRoute>
+        element:<PrivateRoute><AllMeals/></PrivateRoute>,
+        loader: () => fetch('http://localhost:5000/api/v1/allmealCount')
       },
       {
         path:'allReviews',
-        element:<PrivateRoute><AllReviews/></PrivateRoute>
+        element:<PrivateRoute><AllReviews/></PrivateRoute>,
+        loader: () => fetch('http://localhost:5000/api/v1/allReviewCount')
       },
       {
         path:'serveMeals',
-        element:<PrivateRoute><ServeMeals/></PrivateRoute>
+        element:<PrivateRoute><ServeMeals/></PrivateRoute>,
+        loader: () => fetch('http://localhost:5000/api/v1/allServeMealCount')
       },
       {
         path:'upcomingMeals',
-        element:<PrivateRoute><UpcomingMealsAdmin/></PrivateRoute>
+        element:<PrivateRoute><UpcomingMealsAdmin/></PrivateRoute>,
+        loader: () => fetch('http://localhost:5000/api/v1/upcomingMealCount')
       },
 
       // USER ROUTE

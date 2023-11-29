@@ -1,19 +1,51 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import swal from "sweetalert";
+import { useEffect, useState } from "react";
+import useAuth from "../hooks/useAuth";
+import { useLoaderData } from "react-router-dom";
 
 const UpcomingMealsAdmin = () => {
+  const {count} = useLoaderData()
+  const {user, googleUser, loading} = useAuth()
+  const [itemsPerPage, setItemsPerPage] = useState(10)
+  const [currentPage, setCurrentPage] = useState(0)
+  const [data, setData] = useState([])
+  const numberOfPages = Math.ceil(count/itemsPerPage)
+
+  const pages = Array.from({length: numberOfPages}, (_, index) => index)
+
+  const handlePreviousPage = () => {
+    if(currentPage > 0){
+      setCurrentPage(currentPage - 1)
+    }
+  }
+
+  const handleNextPage = () => {
+    if(currentPage < pages.length - 1){
+      setCurrentPage(currentPage - 1)
+    }
+  }
+
+  useEffect( () => {
+    fetch(`http://localhost:5000/api/v1/upcomingmeal?page=${currentPage}&size=${itemsPerPage}`)
+    .then(res => res.json())
+    .then(data => setData(data))
+  },[currentPage, itemsPerPage])
+  
+  
+  
   const axiosSecure = useAxiosSecure()
 
-  const {data, isLoading, refetch} = useQuery({
-    queryKey: ['upcomingmeal'],
-    queryFn: async () => {
-      const result = await axiosSecure.get('/api/v1/upcomingmeal')
-      return result.data
-    }
-  })
+  // const {data, isLoading, refetch} = useQuery({
+  //   queryKey: ['upcomingmeal'],
+  //   queryFn: async () => {
+  //     const result = await axiosSecure.get('/api/v1/upcomingmeal')
+  //     return result.data
+  //   }
+  // })
 
-  if(isLoading){
+  if(loading){
     return <p>Loading</p>
   }
 
@@ -25,7 +57,7 @@ const UpcomingMealsAdmin = () => {
     } else{
       swal("Sorry", "Your meal couldn't be published this time, Please try again", "error")
     }
-    refetch()
+    // refetch()
   }
 
   const sortedData = [...data].sort((a,b) => b.likes - a.likes)
@@ -71,6 +103,17 @@ const UpcomingMealsAdmin = () => {
       }
     </tbody>
   </table>
+
+  <div className="flex py-4 justify-center gap-5">
+   <button onClick={handlePreviousPage}>Previous</button>
+    {
+      pages.map((page, idx) => <button
+      className={`${currentPage === page ? 'bg-one text-white py-2 px-4 rounded-full' : ''}`} 
+      onClick={() => setCurrentPage(page)}
+      key={idx}>{page}</button>)
+    }
+    <button onClick={handleNextPage}>Next</button>
+  </div>
 </div>
 
     </div>

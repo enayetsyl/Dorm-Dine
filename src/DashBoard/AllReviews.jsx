@@ -1,19 +1,49 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../hooks/useAxiosSecure";
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import swal from "sweetalert";
+import { useEffect, useState } from "react";
+import useAuth from "../hooks/useAuth";
 
 const AllReviews = () => {
   const axiosSecure = useAxiosSecure();
+  const {count} = useLoaderData()
+  const {user, googleUser, loading} = useAuth()
+  const [itemsPerPage, setItemsPerPage] = useState(10)
+  const [currentPage, setCurrentPage] = useState(0)
+  const [data, setData] = useState([])
+  const numberOfPages = Math.ceil(count/itemsPerPage)
 
-  const {data, isLoading, refetch} = useQuery({
-    queryKey:['allReview'],
-    queryFn: async () => {
-      const result = await axiosSecure.get('/api/v1/allreview')
-      return result.data
+  const pages = Array.from({length: numberOfPages}, (_, index) => index)
+
+  const handlePreviousPage = () => {
+    if(currentPage > 0){
+      setCurrentPage(currentPage - 1)
     }
-  })
-  if(isLoading){
+  }
+
+  const handleNextPage = () => {
+    if(currentPage < pages.length - 1){
+      setCurrentPage(currentPage - 1)
+    }
+  }
+
+
+  useEffect( () => {
+    fetch(`http://localhost:5000/api/v1/allreview?page=${currentPage}&size=${itemsPerPage}`)
+    .then(res => res.json())
+    .then(data => setData(data))
+  },[currentPage, itemsPerPage])
+
+
+  // const {data, isLoading, refetch} = useQuery({
+  //   queryKey:['allReview'],
+  //   queryFn: async () => {
+  //     const result = await axiosSecure.get('/api/v1/allreview')
+  //     return result.data
+  //   }
+  // })
+  if(loading){
     return <p>Loading</p>
   }
 
@@ -30,7 +60,7 @@ const AllReviews = () => {
           const res = await axiosSecure.delete(`/api/v1/review/${id}`);
           if (res.data.deletedCount > 0) {
               // refetch to update the ui
-              refetch();
+              // refetch();
               swal("Your review has been deleted!", {
                 icon: "success",
               });
@@ -82,6 +112,16 @@ const AllReviews = () => {
       }
     </tbody>
   </table>
+  <div className="flex py-4 justify-center gap-5">
+   <button onClick={handlePreviousPage}>Previous</button>
+    {
+      pages.map((page, idx) => <button
+      className={`${currentPage === page ? 'bg-one text-white py-2 px-4 rounded-full' : ''}`} 
+      onClick={() => setCurrentPage(page)}
+      key={idx}>{page}</button>)
+    }
+    <button onClick={handleNextPage}>Next</button>
+  </div>
 </div>
 
     </div>
