@@ -3,9 +3,14 @@ import useAuth from "../hooks/useAuth";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import { Link } from "react-router-dom";
 import swal from "sweetalert";
+import { useState } from "react";
 
 const MyReviews = () => {
   const {user, googleUser} = useAuth();
+
+  const [editingReview, setEditingReview] = useState(null);
+  const [editedText, setEditedText] = useState('')
+
 
   const axiosSecure = useAxiosSecure()
 
@@ -16,6 +21,37 @@ const MyReviews = () => {
       return response.data;
     }
   })
+
+
+  const handleEditClick = (reviewId) => {
+    console.log(reviewId)
+    setEditingReview(reviewId);
+    const reviewToEdit = data.find((review) => review._id === reviewId);
+    setEditedText(reviewToEdit.reviewText)
+  }
+
+  const handleEditClose = () => {
+    setEditingReview(null)
+    setEditedText('')
+  }
+
+  const handleEditSave = async() => {
+    console.log('save button clicked')
+    console.log(editingReview)
+
+    const res = await axiosSecure.patch(`/api/v1/updatereview/${editingReview}`, {
+      reviewText: editedText,
+    })
+    console.log(res)
+    if(res.data.modifiedCount > 0){
+      refetch()
+      swal("Congratulation", "Your Review Updated Successfully", "success")
+      handleEditClick();
+    } else {
+      swal("error", "Fail to edit your review", "Error")
+    }
+  }
+
 
   const handleReviewDelete = (id) => {
     console.log(id)
@@ -47,8 +83,8 @@ const MyReviews = () => {
     return <p>Loading</p>
   }
 
-  console.log('user',user)
-  console.log('google user', googleUser)
+  // console.log('user',user)
+  // console.log('google user', googleUser)
   console.log('review data', data)
   return (
     <div>
@@ -74,7 +110,9 @@ const MyReviews = () => {
         <td className="px-6 py-4 whitespace-nowrap">{review.meal.likes}</td>
         <td className="px-6 py-4 whitespace-nowrap">{review.meal.reviews}</td>
         <td className="px-6 py-4 whitespace-nowrap">
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button>
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          onClick={() => handleEditClick(review._id)}
+          >Edit</button>
         </td>
         <td className="px-6 py-4 whitespace-nowrap">
           <button 
@@ -96,7 +134,32 @@ const MyReviews = () => {
     </tbody>
   </table>
 </div>
-
+{/* Modal for editing review */}
+{editingReview && (
+        <div className="modal h-[600px] w-2/3 bg-one">
+          <div className="modal-content">
+            <span className="close text-white text-7xl font-bold" onClick={handleEditClose}>&times;</span>
+            <div className="py-5 flex flex-col justify-center items-center gap-5 text-white
+            ">
+            <label htmlFor="editedText"
+            className="text-2xl font-primary"
+            >Edit Review:</label>
+            <textarea
+              className="text-four p-2 text-xl  rounded-lg 
+              overflow-y-auto
+              w-[90%] h-[380px]"
+              type="text"
+              id="editedText"
+              value={editedText}
+              onChange={(e) => setEditedText(e.target.value)}
+            />
+            <button onClick={handleEditSave}
+            className="bg-four rounded-lg px-4 py-2 text-xl"
+            >Save</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
