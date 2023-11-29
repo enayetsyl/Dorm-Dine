@@ -4,17 +4,18 @@ import { Link, useLoaderData } from "react-router-dom";
 import swal from "sweetalert";
 import { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
+import { allMeal, allMealCount } from "../api/update";
 
 const AllMeals = () => {
-  const {count} = useLoaderData()
-  console.log('count', count)
+  const {data: count, isLoading} = useQuery({
+    queryKey:['allMealCount'],
+    queryFn: () => allMealCount()
+  })
   const {loading} = useAuth()
   const [itemsPerPage, setItemsPerPage] = useState(10)
   const [currentPage, setCurrentPage] = useState(0)
-  const [data, setData] = useState([])
   const numberOfPages = Math.ceil(count/itemsPerPage)
   const pages = Array.from({length: numberOfPages}, (_, index) => index)
-  console.log(pages)
   const axiosSecure = useAxiosSecure();
 
   const handlePreviousPage = () => {
@@ -29,19 +30,13 @@ const AllMeals = () => {
     }
   }
 
-  useEffect( () => {
-    fetch(`http://localhost:5000/api/v1/allmeal?page=${currentPage}&size=${itemsPerPage}`)
-    .then(res => res.json())
-    .then(data => setData(data))
-  },[currentPage, itemsPerPage])
+  const {data, refetch} = useQuery({
+    queryKey: [currentPage, itemsPerPage],
+    queryFn: () => allMeal(currentPage, itemsPerPage)
+  })
 
 
-console.log(data)
-
-
-
-
-  if(loading){
+  if(isLoading){
     return <p>Loading</p>
   }
 
@@ -69,7 +64,6 @@ console.log(data)
       }
   })
   }
-  console.log(data)
 
   return (
     <div className="w-[90%] mx-auto">
@@ -126,7 +120,7 @@ console.log(data)
       pages.map((page, idx) => <button
       className={`${currentPage === page ? 'bg-one text-white py-2 px-4 rounded-full' : ''}`} 
       onClick={() => setCurrentPage(page)}
-      key={idx}>{page}</button>)
+      key={idx}>{page + 1}</button>)
     }
     <button onClick={handleNextPage}>Next</button>
   </div>

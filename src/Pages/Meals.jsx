@@ -22,6 +22,9 @@ const Meals = () => {
   const [selectedPriceRange, setSelectedPriceRange] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
 
+  // pagination Number, auth redirect, useLoaderData
+
+
   if(isLoading){
     return <p>loading</p>
   }

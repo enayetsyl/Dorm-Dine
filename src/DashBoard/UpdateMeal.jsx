@@ -5,6 +5,8 @@ import swal from "sweetalert";
 import { useQuery } from "@tanstack/react-query";
 import { useLoaderData, useParams } from "react-router-dom";
 import axios from "axios";
+import { getMeal } from "../api/update";
+import { useEffect } from "react";
 
 
 
@@ -12,11 +14,18 @@ const VITE_IMAGE_HOSTING_KEY = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${VITE_IMAGE_HOSTING_KEY}`;
 
 const UpdateMeal = () => {
-  const mealDetail = useLoaderData();
-  console.log(mealDetail)
+  const {id }= useParams()
   const { register, handleSubmit } = useForm();
   const axiosSecure = useAxiosSecure()
   const {googleUser} = useAuth()
+  const {data: mealDetail, isLoading} = useQuery({
+    queryKey:['editMeal', id],
+    queryFn: () => getMeal(id)
+  })
+
+  if(isLoading){
+    return <p>Loading</p>
+  }
 
 
   const onSubmit = async (data) => {
@@ -209,6 +218,7 @@ const UpdateMeal = () => {
         </form>
       </div>
     </div>
+
   );
 };
 

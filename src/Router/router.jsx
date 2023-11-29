@@ -103,12 +103,10 @@ import UpdateMeal from "../DashBoard/UpdateMeal";
       {
         path:'updateMeal/:id',
         element:<PrivateRoute><UpdateMeal/></PrivateRoute>,
-        loader: ({params}) => fetch(`http://localhost:5000/api/v1/editmeal/${params.id}`)
       },
       {
         path:'allMeals',
         element:<PrivateRoute><AllMeals/></PrivateRoute>,
-        loader: () => fetch('http://localhost:5000/api/v1/allmealCount')
       },
       {
         path:'allReviews',
