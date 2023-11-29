@@ -3,7 +3,7 @@ import { AwesomeButton } from "react-awesome-button";
 import 'react-awesome-button/dist/styles.css';
 import '../Components/button.css'
 import useAdmin from "../hooks/useAdmin";
-
+import titleIcon from '../assets/titleIcon.png'
 
 const DashboardLayout = () => {
   const [isAdmin] = useAdmin()
@@ -13,6 +13,9 @@ const DashboardLayout = () => {
     <div className=" bg-five p-2 space-x-5 flex flex-row flex-wrap gap-5">
       {
         isAdmin ? <>
+        <Link to='/'>
+        <img src={titleIcon} alt="" className="max-w-[100px]"/>
+        </Link>
         <Link to='/dashboard/adminProfile'>
       <AwesomeButton type="primary" className='aws-btn font-bold px-20 w-full' >Admin Profile</AwesomeButton>
       </Link>
@@ -36,6 +39,9 @@ const DashboardLayout = () => {
       </Link>
      
         </> : <>
+        <Link to='/'>
+        <img src={titleIcon} alt="" className="max-w-[100px]"/>
+        </Link>
         <Link to='/dashboard/myProfile'>
       <AwesomeButton type="primary" className='aws-btn font-bold px-20 w-full' >My Profile</AwesomeButton>
       </Link>

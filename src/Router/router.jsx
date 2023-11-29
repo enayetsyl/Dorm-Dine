@@ -24,6 +24,7 @@ import MealDetails from "../Pages/MealDetails";
 import Checkout from "../Pages/Checkout";
 import PrivateRoute from "./PrivateRoute";
 import Contact from "../Pages/Contact";
+import UpdateMeal from "../DashBoard/UpdateMeal";
  
  const router = createBrowserRouter([
   {
@@ -97,6 +98,11 @@ import Contact from "../Pages/Contact";
       {
         path:'addMeal',
         element:<PrivateRoute><AddMeal/></PrivateRoute>
+      },
+      {
+        path:'updateMeal/:id',
+        element:<PrivateRoute><UpdateMeal/></PrivateRoute>,
+        loader: ({params}) => fetch(`http://localhost:5000/api/v1/editmeal/${params.id}`)
       },
       {
         path:'allMeals',

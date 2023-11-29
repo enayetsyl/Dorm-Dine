@@ -65,7 +65,6 @@ const AllMeals = () => {
       {/* Row 1: Fake Data */}
      {
       data.length > 0 ? (
-       
         data.map((meal, index) => (
           <tr key={index}>
           <td className="px-6 py-4 whitespace-nowrap">{meal.mealTitle}</td>
@@ -74,21 +73,22 @@ const AllMeals = () => {
           <td className="px-6 py-4 whitespace-nowrap">{meal.distributorName}</td>
           <td className="px-6 py-4 whitespace-nowrap">{meal.distributorEmail}</td>
           <td className="px-6 py-4 whitespace-nowrap">
-            <button className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">Update</button>
+            <Link to={`/dashboard/updateMeal/${meal._id}`}>
+            <button className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded cursor-pointer">Update</button>
+            </Link>
           </td>
           <td className="px-6 py-4 whitespace-nowrap">
             <button 
             onClick={() => handleProductDelete(meal._id)}
-            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded cursor-pointer">Delete</button>
           </td>
           <td className="px-6 py-4 whitespace-nowrap">
            <Link to={`/mealdetails/${meal._id}`}>
-           <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">View Meal</button>
+           <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded cursor-pointer">View Meal</button>
            </Link>
           </td>
         </tr>
         ))
-       
       ) : (
         <p>No meal to show</p>
       )

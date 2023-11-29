@@ -122,7 +122,7 @@ const Navbar = () => {
                   {accountActive && (
                     <div className="w-[150px] absolute top-[122%] right-0 text-base bg-white black-shadow p-3">
                       <ul className="flex flex-col gap-y-3">
-                        <li>{googleUser.name}</li>
+                        <li>{googleUser?.name}</li>
                         <li>
                           <Link to="/dashboard" className="hover:text-blue-500">
                             Dashboard
