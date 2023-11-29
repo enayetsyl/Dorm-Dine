@@ -3,10 +3,15 @@ import useAuth from "../hooks/useAuth";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import { Link } from "react-router-dom";
 import swal from "sweetalert";
+import { useState } from "react";
 
 const MyReviews = () => {
   const {user, googleUser} = useAuth();
+  
+  const [editingReview, setEditingReview] = useState(null)
+  const [editedText, setEditedText] = useState('')
 
+  
   const axiosSecure = useAxiosSecure()
 
   const {data, isLoading, refetch} = useQuery({
@@ -46,6 +51,11 @@ const MyReviews = () => {
   if(isLoading){
     return <p>Loading</p>
   }
+
+  
+
+
+
 
   console.log('user',user)
   console.log('google user', googleUser)

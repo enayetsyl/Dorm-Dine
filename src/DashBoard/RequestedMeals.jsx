@@ -11,7 +11,6 @@ const RequestedMeals = () => {
   queryKey: ['requestMeal'],
   queryFn: async () => {
     const response = await axiosSecure.get(`/api/v1/requestmeal?userEmail=${googleUser.email}`)
-
     return response.data
   }
  })
@@ -69,9 +68,9 @@ console.log(mealData)
       {
         mealData.map(meal =>  (
           <tr key={meal._id}>
-        <td className="px-6 py-4 whitespace-nowrap" >{meal.mealTitle}</td>
-        <td className="px-6 py-4 whitespace-nowrap">{meal.likes}</td>
-        <td className="px-6 py-4 whitespace-nowrap">{meal.reviews}</td>
+        <td className="px-6 py-4 whitespace-nowrap" >{meal.orderedMeal.mealTitle}</td>
+        <td className="px-6 py-4 whitespace-nowrap">{meal.orderedMeal.likes}</td>
+        <td className="px-6 py-4 whitespace-nowrap">{meal.orderedMeal.reviews}</td>
         <td className="px-6 py-4 whitespace-nowrap capitalize">{meal.status}</td>
         <td className="px-6 py-4 whitespace-nowrap">
           <button className="bg-four py-2 px-5 text-white rounded-lg"

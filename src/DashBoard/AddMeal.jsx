@@ -212,9 +212,11 @@ const AddMeal = () => {
             />
           </div>
 
-          <div>
+          <div className="flex justify-center items-center gap-10">
           {/* Add meal Button  */}
-          <button type="submit"
+          <button 
+         className="bg-four py-3 px-6 text-white"
+          type="submit"
           name="addMeal"
           >
            Add Meal
@@ -223,6 +225,7 @@ const AddMeal = () => {
           {/* Add to upcoming Button  */}
           <button type="submit"
           name="upcomingMeal"
+          className="bg-four py-3 px-6 text-white"
           >
             Upcoming Meal
           </button>

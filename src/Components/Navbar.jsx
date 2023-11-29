@@ -33,7 +33,7 @@ const Navbar = () => {
     },
     {
       text: 'Upcoming Meals',
-      link: '/upcoming-meals',
+      link: '/upcomingmeals',
     },
     // {
     //   text: 'Contact Us',

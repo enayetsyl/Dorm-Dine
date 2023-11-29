@@ -47,8 +47,8 @@ const ServeMeals = () => {
         data.length > 0 ? (
           data.map((request, index) => (
             <tr key={index}>
-        <td className="px-6 py-4 whitespace-nowrap">{request.mealTitle}</td>
-        <td className="px-6 py-4 whitespace-nowrap">j{request.userEmail}</td>
+        <td className="px-6 py-4 whitespace-nowrap">{request.orderedMeal.mealTitle}</td>
+        <td className="px-6 py-4 whitespace-nowrap">{request.userEmail}</td>
         <td className="px-6 py-4 whitespace-nowrap">{request.userName}</td>
         <td className="px-6 py-4 whitespace-nowrap capitalize">{request.status}</td>
         <td className="px-6 py-4 whitespace-nowrap">

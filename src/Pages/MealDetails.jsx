@@ -61,7 +61,7 @@ const MealDetails = () => {
       return;
     }
     const requestMealData = {
-      ...meal,
+      orderedMeal: meal,
       userId: googleUser._id,
       userName: googleUser.name,
       userEmail: googleUser.email,
