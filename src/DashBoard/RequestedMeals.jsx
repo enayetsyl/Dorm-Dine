@@ -6,11 +6,12 @@ import swal from "sweetalert";
 const RequestedMeals = () => {
   const {googleUser} = useAuth()
   const axiosSecure = useAxiosSecure()
-
+  console.log(googleUser._id)
  const {data: mealData, isLoading, isError, refetch} = useQuery({
   queryKey: ['requestMeal'],
   queryFn: async () => {
-    const response = await axiosSecure.get(`/api/v1/requestmeal?userId=${googleUser._id}`)
+    const response = await axiosSecure.get(`/api/v1/requestmeal?userEmail=${googleUser.email}`)
+
     return response.data
   }
  })
