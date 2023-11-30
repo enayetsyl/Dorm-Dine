@@ -23,7 +23,6 @@ import UpcomingMealsAdmin from "../DashBoard/UpcomingMealsAdmin";
 import MealDetails from "../Pages/MealDetails";
 import Checkout from "../Pages/Checkout";
 import PrivateRoute from "./PrivateRoute";
-import Contact from "../Pages/Contact";
 import UpdateMeal from "../DashBoard/UpdateMeal";
 import InfiniteScrollComponent from "../Pages/infiniteScrollComponent";
  
@@ -66,6 +65,10 @@ import InfiniteScrollComponent from "../Pages/infiniteScrollComponent";
       // {
       //   path: '/contact',
       //   element:<InfiniteScrollComponent/>
+      // },
+      // {
+      //   path: '/contact',
+      //   element:<Meal2/>
       // },
     ]
   },

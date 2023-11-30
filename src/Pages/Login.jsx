@@ -18,13 +18,8 @@ const Login = () => {
     signInUser(data.email, data.password)
     .then(async (response) => {
       setUser(response.user)
-      const user = response.user.email;
-      const res = await axiosSecure.post('/api/v1/jwt',user)
-      if(res.data.success){
-        console.log(res.data.success)
-        swal('Ovinondon', "Your Login Successful", "success")
-      navigate(location?.state ? location.state : '/')
-      }
+      swal('Ovinondon', "Your Login Successful", "success")
+      navigate(location?.state ? location.state.from : '/')
     })
     .catch(err => {
       if(err){

@@ -70,7 +70,8 @@ const AuthProvider = ({children}) => {
           setLoading(false)
         })
       }else {
-        axios.post('https://dorm-dine-server.vercel.app/api/v1/logout', loggedUser, {withCredentials: true})
+        setLoading(false)
+        axios.post('http://localhost:5000/api/v1/logout', loggedUser, {withCredentials: true})
         .then(response => {
           console.log(response.data)
           // navigate('/login')
