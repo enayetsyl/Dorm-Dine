@@ -23,7 +23,6 @@ import UpcomingMealsAdmin from "../DashBoard/UpcomingMealsAdmin";
 import MealDetails from "../Pages/MealDetails";
 import Checkout from "../Pages/Checkout";
 import PrivateRoute from "./PrivateRoute";
-import Contact from "../Pages/Contact";
 import UpdateMeal from "../DashBoard/UpdateMeal";
  
  const router = createBrowserRouter([
@@ -62,10 +61,10 @@ import UpdateMeal from "../DashBoard/UpdateMeal";
         path: '/login',
         element:<Login/>
       },
-      {
-        path: '/contact',
-        element:<Contact/>
-      },
+      // {
+      //   path: '/contact',
+      //   element:<Meal2/>
+      // },
     ]
   },
   {

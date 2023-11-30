@@ -70,6 +70,7 @@ const AuthProvider = ({children}) => {
           setLoading(false)
         })
       }else {
+        setLoading(false)
         axios.post('http://localhost:5000/api/v1/logout', loggedUser, {withCredentials: true})
         .then(response => {
           console.log(response.data)

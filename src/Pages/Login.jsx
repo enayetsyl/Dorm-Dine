@@ -10,8 +10,6 @@ const Login = () => {
   const {signInUser, setUser, googleSignIn, setGoogleUser} = useAuth();
   const axiosSecure = useAxiosSecure()
   const location = useLocation();
-  console.log('location state', location.state)
-  console.log('only location', location)
   const navigate = useNavigate();
   const { register, 
     formState: { errors },
@@ -22,7 +20,7 @@ const Login = () => {
       console.log(response)
       setUser(response.user)
       swal('Ovinondon', "Your Login Successful", "success")
-      navigate(location?.state ? location.state : '/')
+      navigate(location?.state ? location.state.from : '/')
     })
     .catch(err => {
       if(err){

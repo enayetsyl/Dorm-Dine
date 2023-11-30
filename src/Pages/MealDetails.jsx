@@ -1,4 +1,4 @@
-import { useLoaderData, useNavigate } from "react-router";
+import { useLoaderData, useNavigate, useLocation } from "react-router";
 import Container from "../Components/Container";
 import { AiFillLike } from "react-icons/ai";
 import { AwesomeButton } from "react-awesome-button";
@@ -20,7 +20,8 @@ const MealDetails = () => {
   const axiosSecure = useAxiosSecure()
   const axiosPublic = useAxiosPublic()
   const {user, googleUser} = useAuth()
-
+  const location = useLocation();
+  
   const handleLikeClick = async () => {
   if(!user){
       swal('You are not login', 'Please Login and then like', 'error')
@@ -51,8 +52,9 @@ const MealDetails = () => {
 
   const handleRequestMeal = async () => {
     if(!user){
-      swal('You are not login', 'Please Login and then like', 'error')
-      navigate('/login')
+      swal('You are not login', 'Please Login and then request', 'error')
+      // navigate('/login')
+      navigate('/login', { state: { from: `/mealdetails/${_id}` } });
       return;
     }
     if(googleUser.package !== 'silver' && googleUser.package !== 'gold' && googleUser.package !== 'platinum'){

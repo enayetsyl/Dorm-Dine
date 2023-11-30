@@ -24,7 +24,7 @@ const MealCard = ({meal}) => {
     <div className="rounded-xl bg-four shadow-2xl pt-10">
       <div className="rounded-t-[80px] bg-white ">
         <div className="text-center p-5 space-y-3">
-        <h1 className="uppercase text-2xl  font-semibold text-blue-800">{mealTitle}</h1>
+        <h1 className="uppercase text-2xl  font-semibold text-blue-800 line-clamp-1 text-ellipsis">{mealTitle}</h1>
        
         </div>
         <div className="w-full h-[300px] px-5 rounded-xl">

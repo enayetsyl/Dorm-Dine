@@ -73,13 +73,7 @@ const Tab = () => {
           )}
         </div>
 
-      {/* <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20 lg:gap-5 '>
-        
-         <MealCard></MealCard>
-         <MealCard></MealCard>
-         <MealCard></MealCard>
-        
-      </div> */}
+      
       <div className='flex items-center justify-center'>
       <Link to='/meals'>
       <AwesomeButton type="primary" className='aws-btn font-bold px-20' >See All</AwesomeButton>
