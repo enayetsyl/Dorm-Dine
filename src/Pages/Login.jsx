@@ -50,7 +50,7 @@ const Login = () => {
           console.log(userInfo)
           setUser(userInfo)
           setGoogleUser(userInfo)
-          navigate(location?.state ? location.state : '/')
+          navigate(location?.state ? location.state.from : '/')
         }
         else{
           swal('Something Wrong', 'Try again', 'error');

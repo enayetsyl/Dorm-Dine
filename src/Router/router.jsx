@@ -62,15 +62,7 @@ import InfiniteScrollComponent from "../Pages/infiniteScrollComponent";
         path: '/login',
         element:<Login/>
       },
-      // {
-      //   path: '/contact',
-      //   element:<InfiniteScrollComponent/>
-      // },
-      // {
-      //   path: '/contact',
-      //   element:<Meal2/>
-      // },
-    ]
+         ]
   },
   {
     path:'dashboard',
