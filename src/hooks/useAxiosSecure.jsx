@@ -6,7 +6,7 @@ import { getAuth, signOut } from "@firebase/auth";
 import app from "../Firebase/firebase.config";
 
 export const axiosSecure = axios.create({
-  baseURL:'http://localhost:5000/',
+  baseURL:'https://dorm-dine-server.vercel.app/',
   withCredentials: true
 })
 

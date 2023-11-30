@@ -16,26 +16,6 @@ const Checkout =  () => {
   console.log(membershipData)
   console.log(googleUser)
 
-//   const handleCheckout = async () => {
-//     try{
-//       const membershipPackage = {
-//         package: membershipData.type,
-//       }
-// console.log(membershipPackage)
-//       const response = await axiosSecure.put(`/api/v1/checkout/${googleUser._id}`, membershipPackage)
-//       if(response.data.modifiedCount > 0){
-//         const getUserInfo = await axiosPublic.get(`/api/v1/user?email=${googleUser.email}`)
-//         if(getUserInfo.data.length > 0){
-//           setGoogleUser(getUserInfo.data[0])
-//           swal('Congratulation', 'You successfully purchase the package', "success")
-//         }
-//       }
-
-//     }catch(error){
-//       console.log(error)
-//     }
-
-//   }
 
   return (
     <div className='pt-10'>

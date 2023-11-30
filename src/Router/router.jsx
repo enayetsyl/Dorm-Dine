@@ -25,6 +25,7 @@ import Checkout from "../Pages/Checkout";
 import PrivateRoute from "./PrivateRoute";
 import Contact from "../Pages/Contact";
 import UpdateMeal from "../DashBoard/UpdateMeal";
+import InfiniteScrollComponent from "../Pages/infiniteScrollComponent";
  
  const router = createBrowserRouter([
   {
@@ -44,7 +45,7 @@ import UpdateMeal from "../DashBoard/UpdateMeal";
       {
         path: '/mealdetails/:id',
         element:<MealDetails/>,
-        loader: ({params}) => fetch(`http://localhost:5000/api/v1/meals/${params.id}`),
+        loader: ({params}) => fetch(`https://dorm-dine-server.vercel.app/api/v1/meals/${params.id}`),
       },
       {
         path: '/upcomingmeals',
@@ -62,10 +63,10 @@ import UpdateMeal from "../DashBoard/UpdateMeal";
         path: '/login',
         element:<Login/>
       },
-      {
-        path: '/contact',
-        element:<Contact/>
-      },
+      // {
+      //   path: '/contact',
+      //   element:<InfiniteScrollComponent/>
+      // },
     ]
   },
   {

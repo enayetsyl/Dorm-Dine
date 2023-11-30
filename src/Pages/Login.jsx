@@ -10,19 +10,21 @@ const Login = () => {
   const {signInUser, setUser, googleSignIn, setGoogleUser} = useAuth();
   const axiosSecure = useAxiosSecure()
   const location = useLocation();
-  console.log('location state', location.state)
-  console.log('only location', location)
   const navigate = useNavigate();
   const { register, 
     formState: { errors },
     handleSubmit } = useForm()
   const onSubmit = (data) => {
     signInUser(data.email, data.password)
-    .then(response => {
-      console.log(response)
+    .then(async (response) => {
       setUser(response.user)
-      swal('Ovinondon', "Your Login Successful", "success")
+      const user = response.user.email;
+      const res = await axiosSecure.post('/api/v1/jwt',user)
+      if(res.data.success){
+        console.log(res.data.success)
+        swal('Ovinondon', "Your Login Successful", "success")
       navigate(location?.state ? location.state : '/')
+      }
     })
     .catch(err => {
       if(err){

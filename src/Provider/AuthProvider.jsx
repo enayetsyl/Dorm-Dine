@@ -53,9 +53,9 @@ const AuthProvider = ({children}) => {
       // setLoading(false);
       if(currentUser){
         setLoading(true)
-        axios.post('http://localhost:5000/api/v1/jwt', loggedUser, {withCredentials: true})
+        axios.post('https://dorm-dine-server.vercel.app/api/v1/jwt', loggedUser, {withCredentials: true})
         .then(() => {
-          axios.get(`http://localhost:5000/api/v1/user?email=${loggedUser.email}`)
+          axios.get(`https://dorm-dine-server.vercel.app/api/v1/user?email=${loggedUser.email}`)
           .then(getRes => {
             setGoogleUser(getRes.data[0])
             setLoading(false)
@@ -70,7 +70,7 @@ const AuthProvider = ({children}) => {
           setLoading(false)
         })
       }else {
-        axios.post('http://localhost:5000/api/v1/logout', loggedUser, {withCredentials: true})
+        axios.post('https://dorm-dine-server.vercel.app/api/v1/logout', loggedUser, {withCredentials: true})
         .then(response => {
           console.log(response.data)
           // navigate('/login')

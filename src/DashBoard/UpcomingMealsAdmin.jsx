@@ -37,7 +37,7 @@ const UpcomingMealsAdmin = () => {
   }
 
   // useEffect( () => {
-  //   fetch(`http://localhost:5000/api/v1/upcomingmeal?page=${currentPage}&size=${itemsPerPage}`)
+  //   fetch(`https://dorm-dine-server.vercel.app/api/v1/upcomingmeal?page=${currentPage}&size=${itemsPerPage}`)
   //   .then(res => res.json())
   //   .then(data => setData(data))
   // },[currentPage, itemsPerPage])

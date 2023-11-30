@@ -3,10 +3,16 @@ import cardImage2 from '../assets/gold.jpg'
 import cardImage3 from '../assets/platinum.jpg'
 import { AwesomeButton } from 'react-awesome-button';
 import Container from './Container';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 const MemberSection = () => {
-  const {setMembershipData} = useAuth()
+  const {setMembershipData, user} = useAuth()
+  const navigate = useNavigate()
+  const handleLogin = () => {
+    if(!user){
+      navigate('/login')
+    }
+  }
   return (
     <Container>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-5 px-5'>
@@ -23,10 +29,12 @@ const MemberSection = () => {
      </div>
     <p className='p-5 text-center text-gray-400 text-base font-medium'>As line silver you will get all the common food items that an ordinary people consume.</p>
     <div 
-    onClick={()=> setMembershipData({
+    onClick={()=> {setMembershipData({
       type : 'silver',
       price: 4000
-    })}
+    });
+    handleLogin()
+  }}
     className='flex justify-center mb-5'>
       <Link to='/checkout'
       
@@ -49,10 +57,13 @@ const MemberSection = () => {
      </div>
     <p className='p-5 text-center text-gray-400 text-base font-medium'>You will get food that all the middle class people consume.</p>
     <div className='flex justify-center mb-5'
-    onClick={()=> setMembershipData({
+    onClick={()=> {setMembershipData({
       type : 'gold',
       price: 9000
-    })}
+    });
+    handleLogin()
+  }
+  }
     >
       <Link to='/checkout'>
       <AwesomeButton type="primary" className='aws-btn font-bold px-20' >Upgrade to Gold</AwesomeButton>
@@ -74,10 +85,12 @@ const MemberSection = () => {
      </div>
     <p className='p-5 text-center text-gray-400 text-base font-medium'>You will receive food like top 1% people of the world. Do not waste.</p>
     <div className='flex justify-center mb-5'
-    onClick={()=> setMembershipData({
+    onClick={()=> {setMembershipData({
       type : 'platinum',
       price: 18000
-    })}
+    });
+    handleLogin()
+  }}
     >
       <Link to='/checkout'>
       <AwesomeButton type="primary" className='aws-btn font-bold px-20' >Upgrade to Platinum</AwesomeButton>
