@@ -2,16 +2,26 @@ import { useQuery } from "@tanstack/react-query";
 import useAuth from "../hooks/useAuth";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import swal from "sweetalert";
-import { useLoaderData } from "react-router-dom";
-import { useEffect, useState } from "react";
+// import { useLoaderData } from "react-router-dom";
+import {  useEffect, useState } from "react";
+import useAxiosPublic from "../hooks/useAxiosPublic";
 
 const ManageUsers = () => {
-  const {count} = useLoaderData()
+  const axiosSecure = useAxiosSecure();
+  const axiosPublic = useAxiosPublic()
+ 
+  const {data: count, isLoading} = useQuery({
+    queryKey:['allMealCount'],
+    queryFn: async () => {
+      const response = await axiosSecure.get(`/api/v1/allUserCount`)
+      return response.data
+    }
+  })
+
   const {user, googleUser, loading} = useAuth()
   const [itemsPerPage, setItemsPerPage] = useState(10)
   const [currentPage, setCurrentPage] = useState(0)
-  const [data, setData] = useState([])
-  const numberOfPages = Math.ceil(count/itemsPerPage)
+  const numberOfPages = Math.ceil(count?.count/itemsPerPage)
 
   const pages = Array.from({length: numberOfPages}, (_, index) => index)
 
@@ -23,37 +33,28 @@ const ManageUsers = () => {
 
   const handleNextPage = () => {
     if(currentPage < pages.length - 1){
-      setCurrentPage(currentPage - 1)
+      setCurrentPage(currentPage + 1)
     }
   }
 
-  useEffect( () => {
-    fetch(`http://localhost:5000/api/v1/allUser?page=${currentPage}&size=${itemsPerPage}`)
-    .then(res => res.json())
-    .then(data => setData(data))
-  },[currentPage, itemsPerPage])
-
-
-  const axiosSecure = useAxiosSecure()
-
-  // const {data, isLoading, refetch} = useQuery({
-  //   queryKey:['allUser'],
-  //   queryFn: async () => {
-  //     const response = await axiosSecure.get('/api/v1/allUser')
-  //     return response.data;
-  //   }
-  // })
+  
+  const {data, refetch} = useQuery({
+    queryKey:[currentPage, itemsPerPage],
+    queryFn: async () => {
+      const response = await axiosSecure.get(`/api/v1/allUser?page=${currentPage}&size=${itemsPerPage}`)
+      return response.data;
+    }
+  })
 
   const handleStatusChange = async(id) => {
     const updateStatusId = await axiosSecure.patch(`/api/v1/makeadmin/${id}`)
     if(updateStatusId.data.modifiedCount > 0){
       swal('Congratulations', 'Your make a new admin', 'success');
-      console.log(updateStatusId)
-      // refetch()
+      refetch()
     }
   }
 
-  if(loading){
+  if(isLoading){
     return <p>Loading</p>
   }
   
@@ -103,10 +104,10 @@ const ManageUsers = () => {
   <div className="flex py-4 justify-center gap-5">
    <button onClick={handlePreviousPage}>Previous</button>
     {
-      pages.map((page, idx) => <button
+      pages?.map((page, idx) => <button
       className={`${currentPage === page ? 'bg-one text-white py-2 px-4 rounded-full' : ''}`} 
       onClick={() => setCurrentPage(page)}
-      key={idx}>{page}</button>)
+      key={idx}>{page + 1}</button>)
     }
     <button onClick={handleNextPage}>Next</button>
   </div>

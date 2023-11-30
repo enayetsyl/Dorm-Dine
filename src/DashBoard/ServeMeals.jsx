@@ -6,13 +6,21 @@ import { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
 
 const ServeMeals = () => {
-  const {count} = useLoaderData()
+  // const {count} = useLoaderData()
+  const axiosSecure = useAxiosSecure()
+  const {data: count, isLoading} = useQuery({
+    queryKey:['allServeMealCount'],
+    queryFn: async () => {
+      const response = await axiosSecure.get(`/api/v1/allServeMealCount`)
+      return response.data
+    }
+  })
   const {user, googleUser, loading} = useAuth()
   const [itemsPerPage, setItemsPerPage] = useState(10)
   const [currentPage, setCurrentPage] = useState(0)
-  const [data, setData] = useState([])
-  const numberOfPages = Math.ceil(count/itemsPerPage)
-
+  console.log(count)
+  // const [data, setData] = useState([])
+  const numberOfPages = Math.ceil(count?.count/itemsPerPage)
   const pages = Array.from({length: numberOfPages}, (_, index) => index)
 
   const handlePreviousPage = () => {
@@ -23,27 +31,27 @@ const ServeMeals = () => {
 
   const handleNextPage = () => {
     if(currentPage < pages.length - 1){
-      setCurrentPage(currentPage - 1)
+      setCurrentPage(currentPage + 1)
     }
   }
 
-  useEffect( () => {
-    fetch(`http://localhost:5000/api/v1/serveMeal?page=${currentPage}&size=${itemsPerPage}`)
-    .then(res => res.json())
-    .then(data => setData(data))
-  },[currentPage, itemsPerPage])
+  // useEffect( () => {
+  //   fetch(`http://localhost:5000/api/v1/serveMeal?page=${currentPage}&size=${itemsPerPage}`)
+  //   .then(res => res.json())
+  //   .then(data => setData(data))
+  // },[currentPage, itemsPerPage])
 
 
 
-  const axiosSecure = useAxiosSecure()
-  // const {data, isLoading, refetch} = useQuery({
-  //   queryKey: ['servemeal'],
-  //   queryFn: async () => {
-  //     const result = await axiosSecure.get('/api/v1/serveMeal');
-  //     return result.data;
-  //   }
-  // })
-  if(loading){
+  
+  const {data,  refetch} = useQuery({
+    queryKey: [currentPage, itemsPerPage],
+    queryFn: async () => {
+      const result = await axiosSecure.get(`/api/v1/serveMeal?page=${currentPage}&size=${itemsPerPage}`);
+      return result.data;
+    }
+  })
+  if(isLoading){
     return<p>Loading</p>
   }
 
@@ -54,7 +62,7 @@ const ServeMeals = () => {
     if(result.data.modifiedCount > 0){
       swal("Congratulation", "The meal served", "Success")
     }
-    // refetch();
+    refetch();
   }
 
   console.log(data)
@@ -76,18 +84,18 @@ const ServeMeals = () => {
     <tbody className="bg-white divide-y divide-gray-200">
       {/* Row 1: Fake Data */}
       {
-        data.length > 0 ? (
-          data.map((request, index) => (
+        data?.length > 0 ? (
+          data?.map((request, index) => (
             <tr key={index}>
-        <td className="px-6 py-4 whitespace-nowrap">{request.orderedMeal.mealTitle}</td>
-        <td className="px-6 py-4 whitespace-nowrap">{request.userEmail}</td>
-        <td className="px-6 py-4 whitespace-nowrap">{request.userName}</td>
-        <td className="px-6 py-4 whitespace-nowrap capitalize">{request.status}</td>
+        <td className="px-6 py-4 whitespace-nowrap">{request?.orderedMeal?.mealTitle}</td>
+        <td className="px-6 py-4 whitespace-nowrap">{request?.userEmail}</td>
+        <td className="px-6 py-4 whitespace-nowrap">{request?.userName}</td>
+        <td className="px-6 py-4 whitespace-nowrap capitalize">{request?.status}</td>
         <td className="px-6 py-4 whitespace-nowrap">
           {
-            request.status === 'pending' ? (
+            request?.status === 'pending' ? (
               <button 
-          onClick={() => handleServeStatus(request._id)}
+          onClick={() => handleServeStatus(request?._id)}
           className="bg-four hover:bg-one text-white font-bold py-2 px-4 rounded">Serve</button>
             ) : (
               <button 
@@ -106,10 +114,10 @@ const ServeMeals = () => {
   <div className="flex py-4 justify-center gap-5">
    <button onClick={handlePreviousPage}>Previous</button>
     {
-      pages.map((page, idx) => <button
+      pages?.map((page, idx) => <button
       className={`${currentPage === page ? 'bg-one text-white py-2 px-4 rounded-full' : ''}`} 
       onClick={() => setCurrentPage(page)}
-      key={idx}>{page}</button>)
+      key={idx}>{page +1}</button>)
     }
     <button onClick={handleNextPage}>Next</button>
   </div>

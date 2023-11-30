@@ -54,19 +54,6 @@ import UpdateMeal from "../DashBoard/UpdateMeal";
         path: '/checkout',
         element:<PrivateRoute><Checkout/></PrivateRoute>
       },
-      // {
-      //   path: '/addjob',
-      //   element:<PrivateRoute><AddJob></AddJob></PrivateRoute>
-      // },
-      // {
-      //   path: '/updatejob/:id',
-      //   element:<PrivateRoute><UpdateJob></UpdateJob></PrivateRoute>,
-      //   loader: ({params}) => fetch(`http://localhost:5000/api/v1/jobs/${params.id}`)
-      // },
-      // {
-      //   path: '/login',
-      //   element:<Login></Login>
-      // },
       {
         path: '/register',
         element:<Register/>
@@ -79,7 +66,6 @@ import UpdateMeal from "../DashBoard/UpdateMeal";
         path: '/contact',
         element:<Contact/>
       },
-     
     ]
   },
   {
@@ -94,7 +80,6 @@ import UpdateMeal from "../DashBoard/UpdateMeal";
       {
         path:'manageUsers',
         element:<PrivateRoute><ManageUsers/></PrivateRoute>,
-        loader: () => fetch('http://localhost:5000/api/v1/allUserCount')
       },
       {
         path:'addMeal',
@@ -111,17 +96,14 @@ import UpdateMeal from "../DashBoard/UpdateMeal";
       {
         path:'allReviews',
         element:<PrivateRoute><AllReviews/></PrivateRoute>,
-        loader: () => fetch('http://localhost:5000/api/v1/allReviewCount')
       },
       {
         path:'serveMeals',
         element:<PrivateRoute><ServeMeals/></PrivateRoute>,
-        loader: () => fetch('http://localhost:5000/api/v1/allServeMealCount')
       },
       {
         path:'upcomingMeals',
         element:<PrivateRoute><UpcomingMealsAdmin/></PrivateRoute>,
-        loader: () => fetch('http://localhost:5000/api/v1/upcomingMealCount')
       },
 
       // USER ROUTE

@@ -33,7 +33,7 @@ const handleCancelMeal = (id) => {
   }).then(async (willDelete) => {
     if (willDelete) {
         const res = await axiosSecure.delete(`/api/v1/requestmeal/${id}`);
-        console.log(res.data);
+        console.log('del res', res.data);
         if (res.data.deletedCount > 0) {
             // refetch to update the ui
             refetch();

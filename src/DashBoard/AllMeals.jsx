@@ -1,22 +1,26 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../hooks/useAxiosSecure";
-import { Link, useLoaderData } from "react-router-dom";
+import useAxiosPublic from "../hooks/useAxiosPublic";
+import { Link } from "react-router-dom";
 import swal from "sweetalert";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import useAuth from "../hooks/useAuth";
-import { allMeal, allMealCount } from "../api/update";
 
 const AllMeals = () => {
+  const axiosSecure = useAxiosSecure();
+  const axiosPublic = useAxiosPublic()
   const {data: count, isLoading} = useQuery({
     queryKey:['allMealCount'],
-    queryFn: () => allMealCount()
+    queryFn: async () => {
+      const response = await axiosSecure.get(`/api/v1/allmealCount`)
+      return response.data
+    }
   })
-  const {loading} = useAuth()
+  console.log(count)
   const [itemsPerPage, setItemsPerPage] = useState(10)
   const [currentPage, setCurrentPage] = useState(0)
-  const numberOfPages = Math.ceil(count/itemsPerPage)
+  const numberOfPages = Math.ceil(count?.count/itemsPerPage)
   const pages = Array.from({length: numberOfPages}, (_, index) => index)
-  const axiosSecure = useAxiosSecure();
 
   const handlePreviousPage = () => {
     if(currentPage > 0){
@@ -32,16 +36,19 @@ const AllMeals = () => {
 
   const {data, refetch} = useQuery({
     queryKey: [currentPage, itemsPerPage],
-    queryFn: () => allMeal(currentPage, itemsPerPage)
+    queryFn: async() => {
+        const response = await axiosPublic.get(`/api/v1/allmeal?page=${currentPage}&size=${itemsPerPage}`)
+        return response.data;
+    }
   })
 
+  console.log(data)
 
   if(isLoading){
     return <p>Loading</p>
   }
 
   const handleProductDelete = async (id) => {
-    console.log(id)
     swal({
       title: "Are you sure?",
       text: "Once deleted, you will not be able to see this product",

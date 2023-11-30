@@ -5,9 +5,7 @@ import swal from "sweetalert";
 import { useQuery } from "@tanstack/react-query";
 import { useLoaderData, useParams } from "react-router-dom";
 import axios from "axios";
-import { getMeal } from "../api/update";
-import { useEffect } from "react";
-
+// import useApi, {getMeal} from '../api/useApi'
 
 
 const VITE_IMAGE_HOSTING_KEY = import.meta.env.VITE_IMAGE_HOSTING_KEY;
@@ -20,9 +18,13 @@ const UpdateMeal = () => {
   const {googleUser} = useAuth()
   const {data: mealDetail, isLoading} = useQuery({
     queryKey:['editMeal', id],
-    queryFn: () => getMeal(id)
+    queryFn: async () => {
+      const response = await axiosSecure.get(`/api/v1/editmeal/${id}`)
+      console.log(response)
+      return response.data
+    }
   })
-
+  console.log(mealDetail)
   if(isLoading){
     return <p>Loading</p>
   }
