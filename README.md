@@ -1,8 +1,18 @@
-# React + Vite
+# Live Site Link- 
+https://dormdine-40828.web.app/
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Technology used
+- stripe for processing payment.
+- tanstack query for data fetching
+- axios
+- firebase for authentication
+- react awesome button
+- react hook form data entry.
+- react icons
+- sweetalert for showing alert
+- node js and express used in backend
+- mongodb is used for data storing
+- imagebb is used for image hosting
+- tailwind is used for style.
+- tab system implemented in the home page. 
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
